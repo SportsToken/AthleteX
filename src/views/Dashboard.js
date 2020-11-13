@@ -61,37 +61,89 @@ import {
  // chartExample4
 } from "variables/charts.js";
 
+import Wallet from '@project-serum/sol-wallet-adapter';
+import { Connection, SystemProgram, clusterApiUrl } from '@solana/web3.js';
+
+
 class Dashboard extends React.Component {
   constructor(props) {
+    let providerUrl = 'https://www.sollet.io';
+    const network = clusterApiUrl('devnet');
     super(props);
     this.state = {
       bigChartData: "data1",
-      accordions: "updated"
+      accordions: "updated",
+      connection: new Connection(clusterApiUrl('devnet')),
+      wallet: new Wallet(providerUrl, network),
+      providerUrl: 'https://www.sollet.io',
+      network: clusterApiUrl('devnet'),
+      poolAddress: 'E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'
     };
   }
+  
+  
   logAction = (action,fighter) => {
     return(
-    hist.push({
-      action: action,
-      name: fighter.name,
-      division: fighter.division,
-       date:"", //Need to create method to get accurate date
-       price:""
-   }),
-     fighter.isOwned = !fighter.isOwned,
-     this.setState({state: this.state})
-    );
+      hist.push({
+        action: action,
+        name: fighter.name,
+        division: fighter.division,
+        date: function date() { return new Date().getDate()}, //Need to create method to get accurate date
+        price:""
+      }),
+      fighter.isOwned = !fighter.isOwned,
+      this.setState({state: this.state})
+      );
+    }
+
+    componentDidMount() {
+      this.state.wallet.connect();
+    }
+
+    setBgChartData = name => {
+      this.setState({
+        bigChartData: name
+      });
+    };
+    
+    setProviderUrl = url => {
+        this.setState({
+          providerUrl: url
+        });
+    }
+    
+    
+    async sendTransaction(fromAddress, toAddress, price) {
+    this.state.wallet.on('connect', publicKey => console.log('Connected to ' + publicKey.toBase58()));
+    this.state.wallet.on('disconnect', () => console.log('Disconnected'));
+      try {
+        let transaction = SystemProgram.transfer({
+          fromPubkey: fromAddress || this.state.wallet.publicKey,
+          toPubkey: toAddress ||this.state.wallet.publicKey,
+          lamports: price * 1000000000,
+        });
+        
+        transaction.recentBlockhash = (
+          await this.state.connection.getRecentBlockhash()
+      ).blockhash;
+
+      let signed = await this.state.wallet.signTransaction(transaction);
+
+      let signature = await this.state.connection.sendRawTransaction(signed.serialize());
+
+      await this.state.connection.confirmTransaction(signature, 1);
+
+    } catch (e) {
+      console.warn(e);
+    }
   }
-  setBgChartData = name => {
-    this.setState({
-      bigChartData: name
-    });
-  };
+  
+  
   render() {
     return (
       <>
         <div className="content">
-          <Row>
+          {/* <Row>
             <Col xs="12">
               <Card className="card-chart">
                 <CardHeader>
@@ -187,6 +239,39 @@ class Dashboard extends React.Component {
               </Card>
             </Col>
           </Row>
+          
+           */}
+           <Row>
+             <Col>
+             <Card>
+               <CardHeader>
+                 <CardTitle tag="h3">
+                   My Wallet
+                 </CardTitle>
+               </CardHeader>
+             </Card>
+             <CardBody>
+                    <h1>Wallet Adapter Demo</h1>
+            <div>Network: {this.state.network}</div>
+            <div>
+              Waller provider:{' '}
+              <input
+                type="text"
+                value={this.state.providerUrl}
+                onChange={(e) => this.setProviderUrl(e.target.value.trim())}
+              />
+            </div>
+            {this.state.wallet.connected ? (
+              <>
+                <div>Wallet address: {this.state.wallet.publicKey.toBase58()}.</div>
+              </>
+            ) : (
+              <Button onClick={() => this.state.wallet.connect()} > Connect to a Wallet</Button>
+            )}
+            <hr />
+             </CardBody>
+             </Col>
+           </Row>
           <Row>
             <Col>
             <Card>
@@ -197,7 +282,7 @@ class Dashboard extends React.Component {
                 <Row>
                 <Col md="4">Name</Col>
                 <Col >Division</Col>
-                <Col>Pool Weight</Col>
+                <Col>Price</Col>
                 <Col xs="2">Win-Loss</Col>
                 <Col xs="1"></Col>
                 </Row>
@@ -247,7 +332,7 @@ class Dashboard extends React.Component {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button
+                        <Button onClick={this.sendTransaction(this.state.poolAddress, this.state.wallet.publicKey, fighter.weight)}
                           color="danger"
                           id="4"
                           size="sm"
@@ -283,7 +368,7 @@ class Dashboard extends React.Component {
                 <Row>
                 <Col md="4">Name</Col>
                 <Col >Division</Col>
-                <Col>Pool Weight</Col>
+                <Col>Price</Col>
                 <Col xs="2">Win-Loss</Col>
                 <Col xs="1"></Col>
                 </Row>
@@ -300,7 +385,7 @@ class Dashboard extends React.Component {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button
+                        <Button onClick={this.sendTransaction()}
                           color="success"
                           id="4"
                           size="sm"
