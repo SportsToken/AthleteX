@@ -49,30 +49,31 @@ var routes = [
     component: Map,
     layout: "/admin"
   },*/
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: "tim-icons icon-bell-55",
-    component: Notifications,
-    layout: "/admin"
-  },
-  {
-    path: "/user-profile",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: "tim-icons icon-single-02",
-    component: UserProfile,
-    layout: "/admin"
-  },
-  {
-    path: "/tables",
-    name: "History",
-    rtlName: "قائمة الجدول",
-    icon: "tim-icons icon-align-center",
-    component: TableList,
-    layout: "/admin"
-  },/*
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   rtlName: "إخطارات",
+  //   icon: "tim-icons icon-bell-55",
+  //   component: Notifications,
+  //   layout: "/admin"
+  // },
+  // {
+  //   path: "/user-profile",
+  //   name: "User Profile",
+  //   rtlName: "ملف تعريفي للمستخدم",
+  //   icon: "tim-icons icon-single-02",
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // },
+  // {
+  //   path: "/tables",
+  //   name: "History",
+  //   rtlName: "قائمة الجدول",
+  //   icon: "tim-icons icon-align-center",
+  //   component: TableList,
+  //   layout: "/admin"
+  // },
+  /*
   {
     path: "/typography",
     name: "Typography",
