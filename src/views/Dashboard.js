@@ -61,8 +61,9 @@ import {
  // chartExample4
 } from "variables/charts.js";
 
+import IFrame from'react-iframe'
 import Wallet from '@project-serum/sol-wallet-adapter';
-import { Connection, SystemProgram, clusterApiUrl } from '@solana/web3.js';
+import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
 
 class Dashboard extends React.Component {
@@ -77,7 +78,7 @@ class Dashboard extends React.Component {
       wallet: new Wallet(providerUrl, network),
       providerUrl: 'https://www.sollet.io',
       network: clusterApiUrl('devnet'),
-      poolAddress: 'E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'
+      poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH').toBase58()
     };
   }
   
@@ -115,12 +116,13 @@ class Dashboard extends React.Component {
     }
     
     
-    async sendTransaction(fromAddress, toAddress, price) {
+    async sendTransaction(transferAmountString) {
       try {
+        let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
         let transaction = SystemProgram.transfer({
-          fromPubkey: fromAddress || this.state.wallet.publicKey,
-          toPubkey: toAddress ||this.state.wallet.publicKey,
-          lamports: price * 1000000000,
+          fromPubkey: this.state.wallet.publicKey,
+          toPubkey: this.state.poolKey, //pool key
+          lamports: amount,
         });
         
         transaction.recentBlockhash = (
@@ -128,15 +130,48 @@ class Dashboard extends React.Component {
       ).blockhash;
 
       let signed = await this.state.wallet.signTransaction(transaction);
-
       let signature = await this.state.connection.sendRawTransaction(signed.serialize());
-
       await this.state.connection.confirmTransaction(signature, 1);
 
     } catch (e) {
       console.warn(e);
     }
   }
+
+  async recieveTransaction(transferAmountString) {
+    try {
+      let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
+      let transaction = SystemProgram.transfer({
+        fromPubkey: this.state.poolKey,
+        toPubkey: this.state.wallet.publicKey,
+        lamports: amount,
+      });
+      
+      transaction.recentBlockhash = (
+        await this.state.connection.getRecentBlockhash()
+    ).blockhash;
+
+    let signed = await this.state.wallet.signTransaction(transaction);
+    let signature = await this.state.connection.sendRawTransaction(signed.serialize());
+    await this.state.connection.confirmTransaction(signature, 1);
+
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+  // async makeTransaction() {
+  //   let amount = Math.round(parseFloat(transferAmountString) * 10 ** decimals);
+  //   if (!amount || amount <= 0) {
+  //     throw new Error('Invalid amount');
+  //   }
+  //   return this.state.wallet.transferToken(
+  //     publicKey,
+  //     new PublicKey(destinationAddress),
+  //     amount,
+  //     balanceInfo.mint,
+  //   );
+  // }
   
   
   render() {
@@ -144,11 +179,11 @@ class Dashboard extends React.Component {
       <>
         <div className="content">
            <Row>
-            <Col lg="4">
+            <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
                   <CardTitle tag="h3">
-                  Your Wallet
+                  My Wallet
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
@@ -189,30 +224,35 @@ class Dashboard extends React.Component {
               </CardFooter>
               </Card>
             </Col>
-            <Col lg="4">
+            <Col lg="6">
               <Card className="card-chart">
                 <CardHeader>
-                  <h5 className="card-category">Daily Sales</h5>
                   <CardTitle tag="h3">
-                    <i className="tim-icons icon-delivery-fast text-primary" />{" "}
-                    3,500€
+                  Liquidity Pool
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <div className="chart-area">
-                    
-                  </div>
+                <tbody>
+                <tr>
+                <td>
+                  <p className="title">Solana Explorer</p>
+                  <p className="text-muted">
+                    <a href="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet" target="_blank" >View Transactions</a>
+                  </p>
+                </td>
+                </tr>
+                <tr>
+                <div>
+                {/* <IFrame 
+                url="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet"
+                /> */}
+                </div>
+                </tr>
+              </tbody>
                 </CardBody>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card className="card-chart">
-                <CardHeader>
-                  <h5 className="card-category">Liquidity Pool</h5>
-                </CardHeader>
-                <CardBody>
-                
-                </CardBody>
+                <CardFooter className="d-flex justify-content-center">
+                  <div>Deposit Address: E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH</div>
+                </CardFooter>
               </Card>
             </Col>
           </Row>
@@ -277,7 +317,7 @@ class Dashboard extends React.Component {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={this.sendTransaction(this.state.poolAddress, this.state.wallet.publicKey, fighter.weight)}
+                        <Button onClick={this.recieveTransaction(`${fighter.weight}`)}
                           color="danger"
                           id="4"
                           size="sm"
@@ -303,6 +343,8 @@ class Dashboard extends React.Component {
             </Card>         
             </Col>
           </Row>
+
+
           <Row>
             <Col>
             <Card>
@@ -330,7 +372,7 @@ class Dashboard extends React.Component {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={this.sendTransaction()}
+                        <Button onClick={this.sendTransaction(`${fighter.weight}`)}
                           color="success"
                           id="4"
                           size="sm"
@@ -363,4 +405,5 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+
+export default Dashboard
