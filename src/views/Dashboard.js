@@ -78,7 +78,8 @@ class Dashboard extends React.Component {
       wallet: new Wallet(providerUrl, network),
       providerUrl: 'https://www.sollet.io',
       network: clusterApiUrl('devnet'),
-      poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH').toBase58()
+      poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
+      walletKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv')
     };
   }
   
@@ -160,18 +161,29 @@ class Dashboard extends React.Component {
   }
 }
 
-  // async makeTransaction() {
-  //   let amount = Math.round(parseFloat(transferAmountString) * 10 ** decimals);
-  //   if (!amount || amount <= 0) {
-  //     throw new Error('Invalid amount');
-  //   }
-  //   return this.state.wallet.transferToken(
-  //     publicKey,
-  //     new PublicKey(destinationAddress),
-  //     amount,
-  //     balanceInfo.mint,
-  //   );
-  // }
+async makeTransaction() {
+  try {
+    let transaction = SystemProgram.transfer({
+      fromPubkey: wallet.publicKey,
+      toPubkey: wallet.publicKey,
+      lamports: Math.round(parseFloat("10") * 10 ** 9),
+    });
+    addLog('Getting recent blockhash');
+    transaction.recentBlockhash = (
+      await connection.getRecentBlockhash()
+    ).blockhash;
+    addLog('Sending signature request to wallet');
+    let signed = await wallet.signTransaction(transaction);
+    addLog('Got signature, submitting transaction');
+    let signature = await connection.sendRawTransaction(signed.serialize());
+    addLog('Submitted transaction ' + signature + ', awaiting confirmation');
+    await connection.confirmTransaction(signature, 1);
+    addLog('Transaction ' + signature + ' confirmed');
+  } catch (e) {
+    console.warn(e);
+    addLog('Error: ' + e.message);
+  }
+}
   
   
   render() {
