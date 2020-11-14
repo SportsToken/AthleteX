@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
       providerUrl: 'https://www.sollet.io',
       network: clusterApiUrl('devnet'),
       poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
-      walletKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv')
+      recieveKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv'),
     };
   }
   
@@ -143,7 +143,7 @@ class Dashboard extends React.Component {
     try {
       let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
       let transaction = SystemProgram.transfer({
-        fromPubkey: this.state.poolKey,
+        fromPubkey: this.state.recieveKey,
         toPubkey: this.state.wallet.publicKey,
         lamports: amount,
       });
@@ -152,9 +152,9 @@ class Dashboard extends React.Component {
         await this.state.connection.getRecentBlockhash()
     ).blockhash;
 
-    let signed = await this.state.wallet.signTransaction(transaction);
-    let signature = await this.state.connection.sendRawTransaction(signed.serialize());
-    await this.state.connection.confirmTransaction(signature, 1);
+    // let signed = await this.state.wallet.signTransaction(transaction);
+    // let signature = await this.state.connection.sendRawTransaction(signed.serialize());
+    // await this.state.connection.confirmTransaction(signature, 1);
 
   } catch (e) {
     console.warn(e);
@@ -164,24 +164,24 @@ class Dashboard extends React.Component {
 async makeTransaction() {
   try {
     let transaction = SystemProgram.transfer({
-      fromPubkey: wallet.publicKey,
-      toPubkey: wallet.publicKey,
-      lamports: Math.round(parseFloat("10") * 10 ** 9),
+      fromPubkey: this.state.wallet.publicKey,
+      toPubkey: this.state.poolKey,
+      lamports: Math.round(parseFloat("1") * 10 ** 9),
     });
-    addLog('Getting recent blockhash');
+    // addLog('Getting recent blockhash');
     transaction.recentBlockhash = (
-      await connection.getRecentBlockhash()
+      await this.state.connection.getRecentBlockhash()
     ).blockhash;
-    addLog('Sending signature request to wallet');
-    let signed = await wallet.signTransaction(transaction);
-    addLog('Got signature, submitting transaction');
-    let signature = await connection.sendRawTransaction(signed.serialize());
-    addLog('Submitted transaction ' + signature + ', awaiting confirmation');
-    await connection.confirmTransaction(signature, 1);
-    addLog('Transaction ' + signature + ' confirmed');
+    // addLog('Sending signature request to wallet');
+    let signed = await this.state.wallet.signTransaction(transaction);
+    // addLog('Got signature, submitting transaction');
+    let signature = await this.state.connection.sendRawTransaction(signed.serialize());
+    // addLog('Submitted transaction ' + signature + ', awaiting confirmation');
+    await this.state.connection.confirmTransaction(signature, 1);
+    // addLog('Transaction ' + signature + ' confirmed');
   } catch (e) {
     console.warn(e);
-    addLog('Error: ' + e.message);
+    // addLog('Error: ' + e.message);
   }
 }
   
@@ -218,8 +218,6 @@ async makeTransaction() {
                   onChange={(e) => this.setProviderUrl(e.target.value.trim())}
                 />
                 </p>
-                <div>
-            </div>
                 </tr>
               </tbody>
             </Table>
@@ -254,16 +252,26 @@ async makeTransaction() {
                 </td>
                 </tr>
                 <tr>
-                <div>
-                {/* <IFrame 
-                url="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet"
-                /> */}
+                  <td>
+                  <p className="title">Change Recipient:{``}</p>
+                  <p className="text-muted">
+                    <input
+                  type="text"
+                  value={this.state.recieveKey}
+                  onChange={(e) => this.setState({recieveKey: e.target.value.trim()})}
+                />
+                </p>
+                  </td>
+                </tr>
+                <tr>
+                <div className="d-flex justify-content-center">
+                <Button onClick={() => this.makeTransaction()} > [Test] Send One Transaction</Button>
                 </div>
                 </tr>
               </tbody>
                 </CardBody>
                 <CardFooter className="d-flex justify-content-center">
-                  <div>Deposit Address: E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH</div>
+                  <div>Pool Address: E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH</div>
                 </CardFooter>
               </Card>
             </Col>
@@ -284,36 +292,7 @@ async makeTransaction() {
                 <Col xs="1"></Col>
                 </Row>
               </CardBody>
-              <AccordionWithHeader multipleOkay={true} >{/*
-                <AccordionNode>
-                  <AccordionHeader 
-                   titleColor="white"
-                   horizontalAlignment="centerSpaceBetween">
-                     <div>Khabib Nurmagomedov</div>
-                      <div>Lightweight</div>
-                      <div>100%</div>
-                      <div>29-0</div>
-                      <div>
-                        <Button
-                          color="danger"
-                          id="4"
-                          size="sm"
-                          tag="label"
-                           //onClick={}
-                         >
-                          <input
-                             className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Sell?
-                         </span>
-                        </Button>
-                      </div>
-                  </AccordionHeader>
-                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
-              </AccordionNode>*/}
+              <AccordionWithHeader multipleOkay={true} >
                 {fighters.filter(fighter =>{if(fighter.isOwned){
                   return true;
                 }else{
@@ -329,7 +308,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={this.recieveTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => this.recieveTransaction(`${fighter.weight}`)}
                           color="danger"
                           id="4"
                           size="sm"
@@ -351,6 +330,10 @@ async makeTransaction() {
                   </AccordionNode>
                   );
                 })}
+
+                {/* array.forEach(element => {
+                  
+                }); */}
               </AccordionWithHeader>
             </Card>         
             </Col>
@@ -384,7 +367,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={this.sendTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => this.sendTransaction(`${fighter.weight}`)}
                           color="success"
                           id="4"
                           size="sm"
@@ -407,6 +390,7 @@ async makeTransaction() {
                   </AccordionNode>
                   );
                 })}
+
                 </AccordionWithHeader>
             </Card>
             </Col>
