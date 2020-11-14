@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
       providerUrl: 'https://www.sollet.io',
       network: clusterApiUrl('devnet'),
       poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
-      recieveKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv'),
+      recieveKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
     };
   }
   
@@ -122,7 +122,7 @@ class Dashboard extends React.Component {
         let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
         let transaction = SystemProgram.transfer({
           fromPubkey: this.state.wallet.publicKey,
-          toPubkey: this.state.poolKey, //pool key
+          toPubkey: this.state.recieveKey, //pool key
           lamports: amount,
         });
         
@@ -139,12 +139,12 @@ class Dashboard extends React.Component {
     }
   }
 
-  async recieveTransaction(transferAmountString) {
+  async sellTransaction(transferAmountString) {
     try {
       let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
       let transaction = SystemProgram.transfer({
-        fromPubkey: this.state.recieveKey,
-        toPubkey: this.state.wallet.publicKey,
+        fromPubkey: this.state.wallet.publicKey,
+        toPubkey: this.state.recieveKey,
         lamports: amount,
       });
       
@@ -245,7 +245,7 @@ async makeTransaction() {
                 <tbody>
                 <tr>
                 <td>
-                  <p className="title">Solana Explorer</p>
+                  <p className="title">Liquidity Pool</p>
                   <p className="text-muted">
                     <a href="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet" target="_blank" >View Transactions</a>
                   </p>
@@ -253,24 +253,24 @@ async makeTransaction() {
                 </tr>
                 <tr>
                   <td>
-                  <p className="title">Change Recipient:{``}</p>
+                  <p className="title">Change Player:{``}</p>
                   <p className="text-muted">
                     <input
                   type="text"
-                  onChange={(e) => this.setState({recieveKey: new PublicKey(e.target.value.trim())})}
+                  onChange={(e) => (e.target.value.trim() < 33) ? this.setState({recieveKey: this.state.poolKey}): this.setState({recieveKey: new PublicKey(e.target.value.trim())})}
                 />
                 </p>
                   </td>
                 </tr>
                 <tr>
-                <div className="d-flex justify-content-center">
                 <Button onClick={() => this.makeTransaction()} > [Test] Send One Transaction</Button>
-                </div>
+
                 </tr>
               </tbody>
                 </CardBody>
                 <CardFooter className="d-flex justify-content-center">
-                  <div>Recipient Address: {this.state.recieveKey.toString()}</div>
+                  { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
+                  
                 </CardFooter>
               </Card>
             </Col>
@@ -307,7 +307,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={() => this.recieveTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => this.sellTransaction(`${fighter.weight}`)}
                           color="danger"
                           id="4"
                           size="sm"
