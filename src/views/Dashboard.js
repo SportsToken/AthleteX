@@ -165,7 +165,7 @@ async makeTransaction() {
   try {
     let transaction = SystemProgram.transfer({
       fromPubkey: this.state.wallet.publicKey,
-      toPubkey: this.state.poolKey,
+      toPubkey: this.state.recieveKey,
       lamports: Math.round(parseFloat("1") * 10 ** 9),
     });
     // addLog('Getting recent blockhash');
@@ -257,8 +257,7 @@ async makeTransaction() {
                   <p className="text-muted">
                     <input
                   type="text"
-                  value={this.state.recieveKey}
-                  onChange={(e) => this.setState({recieveKey: e.target.value.trim()})}
+                  onChange={(e) => this.setState({recieveKey: new PublicKey(e.target.value.trim())})}
                 />
                 </p>
                   </td>
@@ -271,7 +270,7 @@ async makeTransaction() {
               </tbody>
                 </CardBody>
                 <CardFooter className="d-flex justify-content-center">
-                  <div>Pool Address: E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH</div>
+                  <div>Recipient Address: {this.state.recieveKey.toString()}</div>
                 </CardFooter>
               </Card>
             </Col>
