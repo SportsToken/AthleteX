@@ -67,7 +67,7 @@ import IFrame from'react-iframe'
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
-let fighters = new player();
+let fighters = [new player()];
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -336,9 +336,9 @@ async makeTransaction() {
                    titleColor="white"
                    horizontalAlignment="centerSpaceBetween">
                      <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.data.weight_class}</Col>
+                      <Col md="3">{fighter.data? fighter.data.weight_class:""}</Col>
                       <Col>{fighter.weight}</Col>
-                      <Col>{fighter.data.record}</Col>
+                      <Col>{fighter.data? fighter.data.record:""}</Col>
                       <Col xs="1">
                         <Button onClick={this.recieveTransaction(`${fighter.weight}`)}
                           color="danger"
@@ -391,9 +391,9 @@ async makeTransaction() {
                    titleColor="white"
                    horizontalAlignment="centerSpaceBetween">
                      <Col md="4">{fighter.name}</Col>
-                    <Col md="3">{fighter.data.weight_class}</Col>
+                    <Col md="3">{fighter.data?fighter.data.weight_class:""}</Col>
                       <Col>{fighter.weight}</Col>
-                      <Col>{fighter.data.record}</Col>
+                      <Col>{fighter.data?fighter.data.record:""}</Col>
                       <Col xs="1">
                         <Button onClick={this.sendTransaction(`${fighter.weight}`)}
                           color="success"
