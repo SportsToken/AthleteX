@@ -1,7 +1,54 @@
 
+import mma from "mma";
+
 function fighterPrice() {
     return Math.floor((Math.random() * 10) + 1);
 }
+
+export class player {
+    constructor(name, sport, isOwned, weight, pool, data) {
+        this.name = name || "";
+        this.sport = sport || null;
+        this.isOwned = isOwned || false;
+        this.weight = weight || 0;
+        this.pool = pool || null;
+        this.data = data || null;
+    }
+}
+
+export let popFighters = async (nameArr,callback) => {
+    if(!Array.isArray(nameArr) || !nameArr.length){
+        console.log('Array was null');
+        return null;
+    }
+
+    let fighterAr = await Promise.all(nameArr.map( async (name) =>{
+        let addFighter =  new Promise((resolve)=>{
+            mma.fighter(name,(data)=>{
+                resolve(new player(data.name,"ufc",null,null,null,data));
+            })
+        })
+        return addFighter;
+    }))
+
+    fighterAt.map((fighter,i)=>{
+        fighter.weight = fighters[i].weight;
+    })
+    if(fighterAr.length > 1){
+        fighterAr.sort(function(a,b){
+            let name1 = a.name.toLowerCase();
+            let name2 = b.name.toLowerCase();
+            if(name1<name2)return -1;
+            if(name1>name2)return 1;
+            return 0;
+        });
+    }
+    callback(fighterAr);
+}
+
+export let lwFighterNames = fighters.map((fighter)=>{
+    return fighter.name
+});
 
 var fighters = [
     {
