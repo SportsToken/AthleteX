@@ -31,7 +31,7 @@ export let popFighters = async (nameArr,callback) => {
         return addFighter;
     }))
 
-    fighterAt.map((fighter,i)=>{
+    fighterAr.map((fighter,i)=>{
         fighter.weight = fighters[i].weight;
     })
     if(fighterAr.length > 1){
@@ -46,9 +46,6 @@ export let popFighters = async (nameArr,callback) => {
     callback(fighterAr);
 }
 
-export let lwFighterNames = fighters.map((fighter)=>{
-    return fighter.name
-});
 
 var fighters = [
     {
@@ -212,5 +209,9 @@ var fighters = [
         //dataPath: "/variables/fighterData.js"
     },
 ];
+
+export let lwFighterNames = fighters.map((fighter)=>{
+    return fighter.name
+});
 
 export default fighters;

@@ -171,7 +171,7 @@ class Dashboard extends React.Component {
     console.warn(e);
   }
 }
-
+/*
 async makeTransaction() {
   try {
     let transaction = SystemProgram.transfer({
@@ -195,7 +195,7 @@ async makeTransaction() {
     addLog('Error: ' + e.message);
   }
 }
-  
+  */
   
   render() {
     return (
@@ -295,36 +295,7 @@ async makeTransaction() {
                 <Col xs="1"></Col>
                 </Row>
               </CardBody>
-              <AccordionWithHeader multipleOkay={true} >{/*
-                <AccordionNode>
-                  <AccordionHeader 
-                   titleColor="white"
-                   horizontalAlignment="centerSpaceBetween">
-                     <div>Khabib Nurmagomedov</div>
-                      <div>Lightweight</div>
-                      <div>100%</div>
-                      <div>29-0</div>
-                      <div>
-                        <Button
-                          color="danger"
-                          id="4"
-                          size="sm"
-                          tag="label"
-                           //onClick={}
-                         >
-                          <input
-                             className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Sell?
-                         </span>
-                        </Button>
-                      </div>
-                  </AccordionHeader>
-                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
-              </AccordionNode>*/}
+              <AccordionWithHeader multipleOkay={true} >
                 {fighters.filter(fighter =>{if(fighter.isOwned){
                   return true;
                 }else{
@@ -366,8 +337,6 @@ async makeTransaction() {
             </Card>         
             </Col>
           </Row>
-
-
           <Row>
             <Col>
             <Card>
@@ -383,7 +352,7 @@ async makeTransaction() {
                 <Col xs="1"></Col>
                 </Row>
               </CardBody>
-              <AccordionWithHeader>
+              <AccordionWithHeader multipleOkay={true}>
               {fighters.map((fighter,i)=>{
                   return(
                   <AccordionNode key={i}>
