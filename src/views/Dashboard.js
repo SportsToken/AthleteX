@@ -117,12 +117,12 @@ class Dashboard extends React.Component {
     }
     
     
-    async sendTransaction(transferAmountString) {
+    async buyFromPool(transferAmountString) {
       try {
         let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
         let transaction = SystemProgram.transfer({
           fromPubkey: this.state.wallet.publicKey,
-          toPubkey: this.state.recieveKey, //pool key
+          toPubkey: this.state.poolKey, //pool key
           lamports: amount,
         });
         
@@ -139,7 +139,7 @@ class Dashboard extends React.Component {
     }
   }
 
-  async sellTransaction(transferAmountString) {
+  async sellAFighter(transferAmountString) {
     try {
       let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
       let transaction = SystemProgram.transfer({
@@ -242,18 +242,19 @@ async makeTransaction() {
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
-                <tbody>
+              <Table>
+              <tbody>
                 <tr>
                 <td>
                   <p className="title">Liquidity Pool</p>
                   <p className="text-muted">
-                    <a href="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet" target="_blank" >View Transactions</a>
+                    <a href="https://explorer.solana.com/address/E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH/tokens?cluster=devnet" target="_blank" >View Balance</a>
                   </p>
                 </td>
                 </tr>
                 <tr>
                   <td>
-                  <p className="title">Change Player:{``}</p>
+                  <p className="title">Send to a Player [Wallet Address]:{``}</p>
                   <p className="text-muted">
                     <input
                   type="text"
@@ -263,14 +264,16 @@ async makeTransaction() {
                   </td>
                 </tr>
                 <tr>
-                <Button onClick={() => this.makeTransaction()} > [Test] Send One Transaction</Button>
+                  <td>
+                  { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
 
+                  </td>
                 </tr>
               </tbody>
+              </Table>
                 </CardBody>
                 <CardFooter className="d-flex justify-content-center">
-                  { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
-                  
+                <Button onClick={() => this.makeTransaction()} > [Test] Send One Token</Button>
                 </CardFooter>
               </Card>
             </Col>
@@ -307,7 +310,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={() => this.sellTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => this.sellAFighter(`${fighter.weight}`)}
                           color="danger"
                           id="4"
                           size="sm"
@@ -325,7 +328,7 @@ async makeTransaction() {
                         </Button>
                       </Col>
                   </AccordionHeader>
-                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
+                  <AccordionPanel><CardBody>Something will go here!</CardBody></AccordionPanel>
                   </AccordionNode>
                   );
                 })}
@@ -343,7 +346,7 @@ async makeTransaction() {
             <Col>
             <Card>
               <CardHeader>
-                <CardTitle tag="h3">Available Fighters</CardTitle>
+              <CardTitle tag="h3">[Pool] Available Fighters</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
@@ -366,7 +369,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={() => this.sendTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => this.buyFromPool(`${fighter.weight}`)}
                           color="success"
                           id="4"
                           size="sm"
