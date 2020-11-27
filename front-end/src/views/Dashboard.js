@@ -21,8 +21,8 @@ import classNames from "../front-end/src/src/classnames";
 // react plugin used to create charts
 import { Line/*, Bar*/ } from "../front-end/src/src/react-chartjs-2";
 
-import fighters from "../front-end/src/src/fighters.js";
-import hist from "../front-end/src/src/transactionHistory";
+import {player,popFighters,lwFighterNames} from "fighters.js";
+import hist from "transactionHistory";
 
 import {
   AccordionWithHeader,
@@ -61,9 +61,13 @@ import {
  // chartExample4
 } from "../front-end/src/src/variables/charts.js";
 
-import Wallet from '../front-end/src/src/@project-serum/sol-wallet-adapter';
+//import {popFighters ,defaultAr} from "../fighters";
+
+import IFrame from'react-iframe'
+import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
+let fighters = [];
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -78,10 +82,17 @@ class Dashboard extends React.Component {
       providerUrl: 'https://www.sollet.io',
       network: clusterApiUrl('devnet'),
       poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
-      recieveKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
+      walletKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv'),
+      fighters: fighters
     };
   }
   
+  fillFighter = (array) => {
+    popFighters(array,(data)=>{
+      fighters = data;
+      this.setState({fighters: fighters});
+    });
+  }
   
   logAction = (action,fighter) => {
     return(
@@ -101,6 +112,7 @@ class Dashboard extends React.Component {
       this.state.wallet.connect();
       this.state.wallet.on('connect', publicKey => console.log('Connected to ' + publicKey.toBase58()));
       this.state.wallet.on('disconnect', () => console.log('Disconnected'));
+      this.fillFighter(lwFighterNames);
     }
 
     setBgChartData = name => {
@@ -159,7 +171,7 @@ class Dashboard extends React.Component {
     console.warn(e);
   }
 }
-
+/*
 async makeTransaction() {
   try {
     let transaction = SystemProgram.transfer({
@@ -183,7 +195,7 @@ async makeTransaction() {
     // addLog('Error: ' + e.message);
   }
 }
-  
+  */
   
   render() {
     return (
@@ -305,9 +317,9 @@ async makeTransaction() {
                    titleColor="white"
                    horizontalAlignment="centerSpaceBetween">
                      <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.division}</Col>
+                      <Col md="3">{fighter.data? fighter.data.weight_class:""}</Col>
                       <Col>{fighter.weight}</Col>
-                      <Col>{fighter.record}</Col>
+                      <Col>{fighter.data? fighter.data.record:""}</Col>
                       <Col xs="1">
                         <Button onClick={() => this.sellAFighter(`${fighter.weight}`)}
                           color="danger"
@@ -327,7 +339,104 @@ async makeTransaction() {
                         </Button>
                       </Col>
                   </AccordionHeader>
-                  <AccordionPanel><CardBody>Something will go here!</CardBody></AccordionPanel>
+                  <AccordionPanel>
+                    <CardBody style={{backgroundColor:"#525f7f"}}>
+                      <Row>
+                        <div style={{textAlign:"left",width:"100%",padding:"5px"}}>
+                          <h1 style={{padding:"10px",float:"left",marginBottom:"0px",marginLeft:"80px"}}>{(fighter.data&&fighter.data.fullname)?fighter.data.fullname:fighter.name}</h1>
+                          <h3 style={{paddingTop:"15px",paddingLeft:"100px",float:"left"}}>{fighter.data?fighter.data.weight_class:""}</h3>
+                        </div>
+                      </Row>
+                      <Row>
+                        <Col>
+                        <div>
+                          <h4 style={{textAlign:"center"}}>Value History</h4>
+                          <div className="chart-area" style={{padding:"10px",paddingTop:"2px"}}>
+                            <Line
+                              data={chartExample1[this.state.bigChartData]}
+                              options={chartExample1.options}
+                            />
+                          </div>
+                          <div style={{textAlign:"center"}}>
+                            <h4 style={{marginBottom:"0px",paddingBottom:"1px"}}>Recent Matches</h4>
+                            <hr style={{width:"75%"}}color="white"/>
+                            {(Array.isArray(fighter.data.fights) && fighter.data.fights[0])?(<>
+                              <div style={{padding:"10px"}}>
+                                <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[0].opponent +"  -  "+fighter.data.fights[0].date}</h4>
+                            <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[0].result+" by "+fighter.data.fights[0].method+" at round "+fighter.data.fights[0].round}</p>
+                              </div>
+                              <div style={{padding:"10px"}}>
+                              <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[1].opponent+"  -  "+fighter.data.fights[1].date}</h4>
+                            <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[1].result+" by "+fighter.data.fights[1].method+" at round "+fighter.data.fights[1].round}</p>
+                              </div>
+                              <div style={{padding:"10px"}}>
+                              <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[2].opponent+"  -  "+fighter.data.fights[2].date}</h4>
+                            <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[2].result+" by "+fighter.data.fights[2].method+" at round "+fighter.data.fights[2].round}</p>
+                              </div>
+                            </>):(<>No match history found</>)}
+                          </div>
+                        </div>
+                        </Col>
+                        <Col>
+                          <div>
+                            <h4 style={{textAlign:"center"}}>Fighter Stats</h4>
+                            {fighter.data?(<>
+                            <div style={{width:"50%",float:"left"}}>
+                              <ul>
+                                <li>Record: {fighter.data.record?fighter.data.record:"Unknown"}</li>
+                                <li>Height: {fighter.data.height}</li>
+                                <li>Weight: {fighter.data.weight}</li>
+                                {fighter.data.wins?(<>
+                                <li>Wins by: 
+                                  <ul>
+                                    <li>KO: {(fighter.data.wins.knockouts / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                    <li>TKO: {(fighter.data.wins.submissions / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                    <li>Decision: {(fighter.data.wins.decisions / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                    <li>Other: {(fighter.data.wins.others / fighter.data.wins.total * 100).toFixed(1)}%</li>
+                                  </ul>
+                                </li>
+                                <li>Losses by: 
+                                  <ul>
+                                    <li>KO: {(fighter.data.losses.knockouts / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                    <li>TKO: {(fighter.data.losses.submissions / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                    <li>Decision: {(fighter.data.losses.decisions / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                    <li>Other: {(fighter.data.losses.others / fighter.data.losses.total * 100).toFixed(1)}%</li>
+                                  </ul>
+                                </li>
+                                </>):(<></>)}
+                              </ul>
+                            </div>
+                            <div style={{width:"50%",float:"left"}}>
+                              <ul>{(fighter.data.strikes && fighter.data.strikes.attempted)?(
+                                <li>Strikes
+                                  <ul>
+                                    <li>Success Rate: {(fighter.data.strikes.successful / fighter.data.strikes.attempted * 100).toFixed(1)}%</li>
+                                    <li>Standing: {fighter.data.strikes.standing}</li>
+                                    <li>Clinch: {fighter.data.strikes.clinch}</li>
+                                    <li>Ground: {fighter.data.strikes.ground}</li>
+                                  </ul>
+                                </li>
+                              ):(<></>)}
+                              {(fighter.data.takedowns && fighter.data.takedowns.attempted)?(
+                                <li>Takedowns
+                                <ul>
+                                  <li>Success Rate: {(fighter.data.takedowns.successful / fighter.data.takedowns.attempted * 100).toFixed(1)}%</li>
+                                  <li>Sunmissions: {fighter.data.takedowns.submissions}</li>
+                                  <li>Passes: {fighter.data.takedowns.passes}</li>
+                                  <li>Sweeps: {fighter.data.takedowns.sweeps}</li>
+                                </ul>
+                              </li>
+                              ):(<></>)}
+                              </ul>
+                            </div>
+                            </>):(<>
+                              No data found :(
+                            </>)}
+                          </div>
+                        </Col>
+                      </Row>
+                      </CardBody>
+                    </AccordionPanel>
                   </AccordionNode>
                   );
                 })}
@@ -339,8 +448,6 @@ async makeTransaction() {
             </Card>         
             </Col>
           </Row>
-
-
           <Row>
             <Col>
             <Card>
@@ -356,7 +463,7 @@ async makeTransaction() {
                 <Col xs="1"></Col>
                 </Row>
               </CardBody>
-              <AccordionWithHeader>
+              <AccordionWithHeader multipleOkay={true}>
               {fighters.map((fighter,i)=>{
                   return(
                   <AccordionNode key={i}>
@@ -364,9 +471,9 @@ async makeTransaction() {
                    titleColor="white"
                    horizontalAlignment="centerSpaceBetween">
                      <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.division}</Col>
+                    <Col md="3">{fighter.data?fighter.data.weight_class:""}</Col>
                       <Col>{fighter.weight}</Col>
-                      <Col>{fighter.record}</Col>
+                      <Col>{fighter.data?fighter.data.record:""}</Col>
                       <Col xs="1">
                         <Button onClick={() => this.buyFromPool(`${fighter.weight}`)}
                           color="success"
@@ -387,7 +494,109 @@ async makeTransaction() {
                         </Button>
                       </Col>
                   </AccordionHeader>
-                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
+                    <AccordionPanel>
+                      <CardBody style={{backgroundColor:"#525f7f"}}>
+                        {fighter.data?(<>
+                          <Row>
+                          <hr color="white"/>
+                          <hr color="white"/>
+                          <div style={{textAlign:"left",width:"100%",padding:"5px"}}>
+                            <h1 style={{padding:"10px",float:"left",marginBottom:"0px",marginLeft:"80px"}}>{fighter.data.fullname?fighter.data.fullname:fighter.name}</h1>
+                            <h3 style={{paddingTop:"15px",paddingLeft:"100px",float:"left"}}>{fighter.data.weight_class}</h3>
+                          </div>
+                        </Row>
+                        <Row>
+                          <Col>
+                          <div>
+                            <h4 style={{textAlign:"center"}}>Value History</h4>
+                            <div className="chart-area" style={{padding:"10px",paddingTop:"2px"}}>
+                              <Line
+                                data={chartExample1[this.state.bigChartData]}
+                                options={chartExample1.options}
+                              />
+                            </div>
+                            <div style={{textAlign:"center"}}>
+                              <h4 style={{marginBottom:"0px",paddingBottom:"1px"}}>Recent Matches</h4>
+                              <hr style={{width:"75%"}}color="white"/>
+                              {(Array.isArray(fighter.data.fights) && fighter.data.fights[0])?(<>
+                                <div style={{padding:"10px"}}>
+                                  <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[0].opponent +"  -  "+fighter.data.fights[0].date}</h4>
+                              <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[0].result+" by "+fighter.data.fights[0].method+" at round "+fighter.data.fights[0].round}</p>
+                                </div>
+                                <div style={{padding:"10px"}}>
+                                <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[1].opponent+"  -  "+fighter.data.fights[1].date}</h4>
+                              <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[1].result+" by "+fighter.data.fights[1].method+" at round "+fighter.data.fights[1].round}</p>
+                                </div>
+                                <div style={{padding:"10px"}}>
+                                <h4 style={{padding:"1px",margin:"0px"}}>{fighter.name + " VS. "+fighter.data.fights[2].opponent+"  -  "+fighter.data.fights[2].date}</h4>
+                              <p style={{padding:"1px",margin:"0px"}}>{"The result was a "+fighter.data.fights[2].result+" by "+fighter.data.fights[2].method+" at round "+fighter.data.fights[2].round}</p>
+                                </div>
+                              </>):(<>No match history found</>)}
+                            </div>
+                          </div>
+                          </Col>
+                          <Col>
+                            <div>
+                              <h4 style={{textAlign:"center"}}>Fighter Stats</h4>
+                              {fighter.data?(<>
+                              <div style={{width:"50%",float:"left"}}>
+                                <ul>
+                                  <li>Record: {fighter.data.record?fighter.data.record:"Unknown"}</li>
+                                  <li>Height: {fighter.data.height}</li>
+                                  <li>Weight: {fighter.data.weight}</li>
+                                  {fighter.data.wins?(<>
+                                  <li>Wins by: 
+                                    <ul>
+                                      <li>KO: {(fighter.data.wins.knockouts / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                      <li>TKO: {(fighter.data.wins.submissions / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                      <li>Decision: {(fighter.data.wins.decisions / fighter.data.wins.total * 100).toFixed(1)}% </li>
+                                      <li>Other: {(fighter.data.wins.others / fighter.data.wins.total * 100).toFixed(1)}%</li>
+                                    </ul>
+                                  </li>
+                                  <li>Losses by: 
+                                    <ul>
+                                      <li>KO: {(fighter.data.losses.knockouts / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                      <li>TKO: {(fighter.data.losses.submissions / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                      <li>Decision: {(fighter.data.losses.decisions / fighter.data.losses.total * 100).toFixed(1)}% </li>
+                                      <li>Other: {(fighter.data.losses.others / fighter.data.losses.total * 100).toFixed(1)}%</li>
+                                    </ul>
+                                  </li>
+                                  </>):(<></>)}
+                                </ul>
+                              </div>
+                              <div style={{width:"50%",float:"left"}}>
+                                <ul>{(fighter.data.strikes && fighter.data.strikes.attempted)?(
+                                  <li>Strikes
+                                    <ul>
+                                      <li>Success Rate: {(fighter.data.strikes.successful / fighter.data.strikes.attempted * 100).toFixed(1)}%</li>
+                                      <li>Standing: {fighter.data.strikes.standing}</li>
+                                      <li>Clinch: {fighter.data.strikes.clinch}</li>
+                                      <li>Ground: {fighter.data.strikes.ground}</li>
+                                    </ul>
+                                  </li>
+                                ):(<></>)}
+                                {(fighter.data.takedowns && fighter.data.takedowns.attempted)?(
+                                  <li>Takedowns
+                                  <ul>
+                                    <li>Success Rate: {(fighter.data.takedowns.successful / fighter.data.takedowns.attempted * 100).toFixed(1)}%</li>
+                                    <li>Sunmissions: {fighter.data.takedowns.submissions}</li>
+                                    <li>Passes: {fighter.data.takedowns.passes}</li>
+                                    <li>Sweeps: {fighter.data.takedowns.sweeps}</li>
+                                  </ul>
+                                </li>
+                                ):(<></>)}
+                                </ul>
+                              </div>
+                              </>):(<>
+                                No data found :(
+                              </>)}
+                            </div>
+                          </Col>
+                        </Row>
+                        </>
+                        ):(<>No data found</>)}
+                      </CardBody>
+                    </AccordionPanel>
                   </AccordionNode>
                   );
                 })}
