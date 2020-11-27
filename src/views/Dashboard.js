@@ -5,9 +5,8 @@ import React from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // react plugin used to create charts
-import { Line/*, Bar*/ } from "react-chartjs-2";
 
-import {player,popFighters,lwFighterNames} from "fighters.js";
+import { getFighters } from "../fighters"
 import hist from "transactionHistory";
 
 import {
@@ -28,32 +27,16 @@ import {
   CardTitle,
   CardFooter,
   Table,
-  //DropdownItem,
-  //UncontrolledDropdown,
-  //Label,
-  //FormGroup,
-  //Input,
-  //Table,
   Row,
   Col,
   //UncontrolledTooltip
 } from "reactstrap";
 
 // core components
-import {
-  chartExample1,
- // chartExample2,
- // chartExample3,
- // chartExample4
-} from "variables/charts.js";
-
-//import {popFighters ,defaultAr} from "../fighters";
-
 import IFrame from'react-iframe'
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
-let fighters = [new player()];
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -70,16 +53,16 @@ class Dashboard extends React.Component {
       poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
       recieveKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
       walletKey: new PublicKey('AqXBCLmHzX9k5z81eNJ1AyDfjMQbEPb7vYb4dsbWbXnv'),
-      fighters: fighters
+      athletes: []
     };
   }
   
-  fillFighter = (array) => {
-    popFighters(array,(data)=>{
-      fighters = data;
-      this.setState({fighters: fighters});
-    });
-  }
+  // fillFighter = (array) => {
+  //   popFighters(array,(data)=>{
+  //     fighters = data;
+  //     this.setState({fighters: fighters});
+  //   });
+  // }
   
   logAction = (action,fighter) => {
     return(
@@ -99,7 +82,7 @@ class Dashboard extends React.Component {
       this.state.wallet.connect();
       this.state.wallet.on('connect', publicKey => console.log('Connected to ' + publicKey.toBase58()));
       this.state.wallet.on('disconnect', () => console.log('Disconnected'));
-      this.fillFighter(lwFighterNames);
+      
     }
 
     setBgChartData = name => {
@@ -290,7 +273,7 @@ async makeTransaction() {
                 </Row>
               </CardBody>
               <AccordionWithHeader multipleOkay={true} >
-                {fighters.filter(fighter =>{if(fighter.isOwned){
+                {this.state.athletes.filter(fighter =>{if(fighter.isOwned){
                   return true;
                 }else{
                   return false;
@@ -301,9 +284,9 @@ async makeTransaction() {
                    titleColor="white"
                    horizontalAlignment="centerSpaceBetween">
                      <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.data? fighter.data.weight_class:""}</Col>
+                      <Col md="3">{fighter.weight_class}</Col>
                       <Col>{fighter.weight}</Col>
-                      <Col>{fighter.data? fighter.data.record:""}</Col>
+                      <Col>{fighter.record}</Col>
                       <Col xs="1">
                         <Button onClick={() => this.sellTransaction(`${fighter.weight}`)}
                           color="danger"
