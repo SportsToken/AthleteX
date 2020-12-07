@@ -3,10 +3,6 @@ const { isConstructorDeclaration } = require('typescript');
 
 var mma = require('mma')
 
-
-
-
-
 module.exports = async function getFighters(nameArr) {
     let fighters = nameArr.map(async (name) => {
         mma.fighter(name, (data) =>{

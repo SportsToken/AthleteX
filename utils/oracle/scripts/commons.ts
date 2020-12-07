@@ -1,6 +1,6 @@
 import { Connection, Account, PublicKey } from '@solana/web3.js';
 import { arrayify } from '@ethersproject/bytes';
-import { SFS } from '../../front-end/src/sdk/sfs';
+import { SFS } from '../../sdk/sfs';
 
 export const connection = new Connection('https://devnet.solana.com', 'recent');
 // export const connection = new Connection('http://localhost:8899', 'recent');
