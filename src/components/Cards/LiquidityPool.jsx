@@ -31,7 +31,7 @@ function LiquidityPool {
                     </tr>
                     <tr>
                     <td>
-                    { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
+                    { this.state.poolKey.toString() == this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
 
                     </td>
                     </tr>

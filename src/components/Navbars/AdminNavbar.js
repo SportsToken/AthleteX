@@ -1,8 +1,8 @@
 /*!
 
-=========================================================
+
 * Black Dashboard React v1.1.0
-=========================================================
+
 
 * Product Page: https://www.creative-tim.com/product/black-dashboard-react
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
@@ -10,7 +10,7 @@
 
 * Coded by Creative Tim
 
-=========================================================
+
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
@@ -113,7 +113,7 @@ class AdminNavbar extends React.Component {
                 </button>
               </div>
               <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
-                {this.props.brandText}
+                You cannot evade the responsibility of tomorrow, today.
               </NavbarBrand>
             </div>
             <button
@@ -132,17 +132,8 @@ class AdminNavbar extends React.Component {
             </button>
             <Collapse navbar isOpen={this.state.collapseOpen}>
               <Nav className="ml-auto" navbar>
-                <InputGroup className="search-bar">{/*
-                  <Button
-                    color="link"
-                    data-target="#searchModal"
-                    data-toggle="modal"
-                    id="search-button"
-                    onClick={this.toggleModalSearch}
-                  >
-                    <i className="tim-icons icon-zoom-split" />
-                    <span className="d-lg-none d-md-block">Search</span>
-                </Button>*/}
+                <InputGroup className="search-bar">
+                  
                 </InputGroup>{/*
                 <UncontrolledDropdown nav>
                   <DropdownToggle

@@ -1,8 +1,8 @@
 /*!
 
-=========================================================
+
 * Black Dashboard React v1.1.0
-=========================================================
+
 
 * Product Page: https://www.creative-tim.com/product/black-dashboard-react
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
@@ -10,14 +10,14 @@
 
 * Coded by Creative Tim
 
-=========================================================
+
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
 /*eslint-disable*/
 import React from "react";
-import { NavLink, Link } from "react-router-dom";
+// import { NavLink, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
@@ -25,7 +25,7 @@ import { PropTypes } from "prop-types";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // reactstrap components
-import { Nav, NavLink as ReactstrapNavLink } from "reactstrap";
+import { Nav, NavLink } from "reactstrap";
 
 var ps;
 
@@ -58,6 +58,7 @@ class Sidebar extends React.Component {
     const { bgColor, routes, rtlActive, logo } = this.props;
     let logoImg = null;
     let logoText = null;
+    let innerLink = null
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
         logoImg = (
@@ -115,6 +116,13 @@ class Sidebar extends React.Component {
             </div>
          ) : null}*/}
           <Nav>
+            <NavLink
+            to={innerLink}
+            className="nav-link"
+            activeClassName="active"
+            onClick={this.props.toggleSidebar}>
+
+            </NavLink>
             {routes.map((prop, key) => {
               if (prop.redirect) return null;
               return (
@@ -136,17 +144,7 @@ class Sidebar extends React.Component {
                   </NavLink>
                 </li>
               );
-            })}{/*
-            <li
-              className="active-pro"
-            >
-              <ReactstrapNavLink
-                href="https://www.creative-tim.com/product/black-dashboard-pro-react?ref=bdr-user-archive-sidebar-upgrade-pro"
-              >
-                <i className="tim-icons icon-spaceship" />
-                <p>Upgrade to PRO</p>
-              </ReactstrapNavLink>
-            </li>*/}
+            })}
           </Nav>
         </div>
       </div>
