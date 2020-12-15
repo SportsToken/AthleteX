@@ -67,7 +67,13 @@ import IFrame from'react-iframe'
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
+import events from 'ufc-upcoming';
+
 let fighters = [];
+
+events.getUpcomingFights(data =>{
+  console.log(data);
+})
 
 class Dashboard extends React.Component {
   constructor(props) {

@@ -29,7 +29,8 @@
     "react-scripts": "^3.4.0",
     "reactstrap": "8.4.1",
     "spl-token-wallet": "github:user2745/spl-wallet",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "ufc-upcoming": "github:mklengs/ufc-upcoming"
   },
   "scripts": {
     "start": "react-scripts start",
