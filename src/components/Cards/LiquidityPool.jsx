@@ -1,5 +1,5 @@
 
-function LiquidityPool {
+function LiquidityPool () {
     return (
         <Card className="card-chart">
         <CardHeader>
@@ -41,6 +41,6 @@ function LiquidityPool {
         <CardFooter className="d-flex justify-content-center">
         <Button onClick={() => this.makeTransaction()} > [Test] Send One Token</Button>
         </CardFooter>
-      </Card>
+        </Card>
     );
 }

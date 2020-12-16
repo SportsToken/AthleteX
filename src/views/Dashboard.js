@@ -49,6 +49,7 @@ import {
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 
+import {H2H} from '../components/Cards/head2head.jsx';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -182,7 +183,7 @@ async makeTransaction() {
               
             </Col>
           </Row>
-
+            <H2H/>
 
           <Row>
             <Col>
