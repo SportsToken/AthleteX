@@ -183,7 +183,12 @@ async makeTransaction() {
               
             </Col>
           </Row>
-            <H2H/>
+            <H2H fights={[
+              {f1:"Stephen Thompson",f2:"Geoff Neal"},
+              {f1:"Jose Aldo",f2:"Marlon Vera"},
+              {f1:"Michel Lima",f2:"Khaos Williams"},
+              {f1:"Marlon Moraes",f2:"Rob Font"}
+              ]}/>
 
           <Row>
             <Col>
