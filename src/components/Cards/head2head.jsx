@@ -85,19 +85,6 @@ export class H2H extends React.Component {
         }
     }
 
-    addPoint(pl,points){
-        if(pl === "p1"){
-            let p = this.state.p1Points;
-            p += points;
-            this.setState({p1Points: p});
-            console.log('adding points')
-        }else if(pl === "p2"){
-            let p = this.state.p2Points;
-            p += points;
-            this.setState({p2Points: p})
-        }else{}
-    }
-
     demoChangeState = () =>{
         let status = this.state.status;
         if(status === "waiting"){
@@ -188,8 +175,6 @@ export class H2H extends React.Component {
                                     this.calculateScore();
                                     return(
                                         <tr key={i}>
-                                            {/*this.state.p2_picks[i] === this.state.results[i]?() => this.addPoint:<></>}
-                                            {this.state.picks[i] === this.state.results[i]?() => this.addPoint("p1",fights.length-i):<></>*/}
                                             <td>{this.state.picks[i]}</td>
                                             <td style={{color:'green'}}>{this.state.picks[i] === this.state.results[i] ?  `+${fights.length - i}` : ''}</td>
                                             <td>{/*For Demo purposes*/ this.state.results[i]}</td>
