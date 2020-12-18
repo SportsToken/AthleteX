@@ -2,8 +2,10 @@
   "name": "black-dashboard-react",
   "version": "1.1.0",
   "private": true,
-  "homepage": "https://demos.creative-tim.com/black-dashboard-react/#/admin/dashboard",
   "dependencies": {
+    "@capacitor/android": "2.4.5",
+    "@capacitor/cli": "^2.4.5",
+    "@capacitor/core": "^2.4.5",
     "@project-serum/sol-wallet-adapter": "^0.1.3",
     "@types/googlemaps": "3.39.3",
     "@types/markerclustererplus": "2.1.33",

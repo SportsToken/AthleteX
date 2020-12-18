@@ -1,0 +1,14 @@
+{
+  "appId": "main.athlete.equity",
+  "appName": "athlete.equity",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "public/",
+  "linuxAndroidStudioPath": "/snap/bin/android-studio",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

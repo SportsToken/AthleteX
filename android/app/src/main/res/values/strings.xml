@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">athlete.equity</string>
+    <string name="title_activity_main">athlete.equity</string>
+    <string name="package_name">main.athlete.equity</string>
+    <string name="custom_url_scheme">main.athlete.equity</string>
+</resources>
