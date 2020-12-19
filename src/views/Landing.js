@@ -16,31 +16,18 @@
 
 */
 import React from "react";
-import Wallet from '../components/Cards/Wallet.jsx';
+import Welcome from "../components/Cards/Welcome.jsx";
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardText,
-  FormGroup,
-  Form,
-  Input,
-  Row,
-  Col
-} from "reactstrap";
-import Account from "components/Cards/Account.jsx";
+import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
-class UserProfile extends React.Component {
+class Landing extends React.Component {
   render() {
     return (
       <>
         <div className="content">
           <Row>
-            <Col md="7">
-              <Account />
+            <Col md="12">
+              <Welcome />
             </Col>
           </Row>
         </div>
@@ -49,4 +36,4 @@ class UserProfile extends React.Component {
   }
 }
 
-export default UserProfile;
+export default Landing;

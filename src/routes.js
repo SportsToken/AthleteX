@@ -16,30 +16,39 @@
 
 */
 import Dashboard from "views/Dashboard.js";
-//import Icons from "views/Icons.js";
-//import Map from "views/Map.js";
-import Notifications from "views/Notifications.js";
-//import Rtl from "views/Rtl.js";
+import JoinLeagues from 'views/JoinLeagues.js';
+import ViewLeagues from 'views/ViewLeagues.js';
 import TableList from "views/TableList.js";
-//import Typography from "views/Typography.js";
+import Icons from "views/Icons.js";
 import UserProfile from "views/UserProfile.js";
+import Landing from "views/Landing.js";
 
 var routes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    // rtlName: "لوحة القيادة",
-    icon: "tim-icons icon-chart-pie-36",
-    component: Dashboard,
+    path: "/Landing",
+    name: "Homepage",
+    icon: "tim-icons icon-world",
+    component: Landing,
     layout: "/admin"
   },
   {
     path: "/wallet",
-    name: "Wallet",
-    // rtlName: "الرموز",
+    name: "Your Account",
     icon: "tim-icons icon-atom",
-    component: Map,
+    component: UserProfile,
     layout: "/admin"
   },
+  {
+    path: "/join-leagues",
+    name: "Join a League",
+    components: JoinLeagues,
+    icon: "tim-icons"
+  },
+  {
+    path: "/leagues",
+    name: "Active Leagues",
+    component: ViewLeagues,
+    icon: "tim-icons"
+  }
 ];
 export default routes;

@@ -1,6 +1,6 @@
+import { Card, CardHeader, CardBody, CardTitle, Table, CardFooter, Button } from 'reactstrap';
 
-
-function Athletes () {
+export default function Athletes () {
 
     return(
         <Card>

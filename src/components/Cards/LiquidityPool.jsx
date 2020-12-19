@@ -1,5 +1,6 @@
+import { Card, CardHeader, CardBody, CardTitle, Table, CardFooter, Button } from 'reactstrap';
 
-function LiquidityPool {
+export default function LiquidityPool() {
     return (
         <Card className="card-chart">
         <CardHeader>
