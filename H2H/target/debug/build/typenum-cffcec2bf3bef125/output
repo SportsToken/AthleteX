@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=C:\Users\Matt\Documents\GitHub\solana-dashboard\H2H\target\debug\build\typenum-cffcec2bf3bef125\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=C:\Users\Matt\Documents\GitHub\solana-dashboard\H2H\target\debug\build\typenum-cffcec2bf3bef125\out\op.rs

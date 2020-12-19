@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 solana-program = "1.4.17"
+arrayref = "0.3.6"
 
 [features]
 exclude_entrypoint = []
