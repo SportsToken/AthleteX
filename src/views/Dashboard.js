@@ -24,13 +24,6 @@ import { Line/*, Bar*/ } from "react-chartjs-2";
 import fighters from "fighters.js";
 import hist from "transactionHistory";
 
-import {
-  AccordionWithHeader,
-  AccordionNode,
-  AccordionHeader,
-  AccordionPanel
-} from 'react-accordion-with-header';
-
 
 // reactstrap components
 import {
@@ -176,7 +169,7 @@ async makeTransaction() {
         <div className="content">
            <Row>
             <Col lg="6">
-
+            
             </Col>
             <Col lg="6">
               

@@ -1,11 +1,12 @@
 import React from 'react'
+import { Card, CardHeader, CardBody, CardTitle, Table, CardFooter, Row, Col } from 'reactstrap';
 
-function Wallet() {
+export default function Wallet() {
     return (
         <Card className="card-chart">
         <CardHeader>
           <CardTitle tag="h3">
-          My Wallet
+               Welcome, User
           </CardTitle>
         </CardHeader>
         <CardBody>
@@ -15,7 +16,7 @@ function Wallet() {
         <td>
           <p className="title">Wallet Network</p>
           <p className="text-muted">
-          {this.state.network}
+          {/* {this.state.network} */}
           </p>
         </td>
         </tr>
@@ -24,8 +25,7 @@ function Wallet() {
           <p className="text-muted">
             <input
           type="text"
-          value={this.state.providerUrl}
-          onChange={(e) => this.setProviderUrl(e.target.value.trim())}
+
         />
         </p>
         </tr>
@@ -33,13 +33,7 @@ function Wallet() {
     </Table>
         </CardBody>
       <CardFooter className="d-flex justify-content-center">
-      {this.state.wallet.connected ? (
-      <>
-        <div >Wallet address: {this.state.wallet.publicKey.toBase58()}.</div>
-      </>
-    ) : (
-      <Button onClick={() => this.state.wallet.connect()} > Connect to a Wallet</Button>
-    )}
+
       </CardFooter>
       </Card>
     );
