@@ -6,6 +6,7 @@ use solana_program::{
     pubkey::Pubkey,
 };
 use std::borrow::BorrowMut;
+use crate::structs::*;
 
 pub struct Match<'a>{
     data: &'a RefCell<&'a mut [u8]>,
@@ -13,24 +14,24 @@ pub struct Match<'a>{
 }
 
 impl<'a> Match<'a>{
-    pub const LEN: usize = 32 + 32 + num_fights*2 + 2; //size of the structure in bytes
+    pub const LEN: usize = 32 + 32 + 15 /*NUM_FIGHTS_MAX*/*2 + 2; //size of the structure in bytes
 
-    fn slice(
+    fn slice<'b>(
         &self,
-        data: &mut [u8]
+        data: &'b mut [u8]
     ) ->(
-        &mut [u8;32], //Pubkey1
-        &mut [u8;32], //pubkey2
-        &mut [u8;num_fights], //P1 picks
-        &mut [u8;num_fights], //P2 picks
-        &mut [u8;2] //Their bet (what each of them entered not the total)
+        &'b mut [u8;32], //Pubkey1
+        &'b mut [u8;32], //pubkey2
+        &'b mut [u8;15 /*NUM_FIGHTS_MAX*/], //P1 picks
+        &'b mut [u8;15 /*NUM_FIGHTS_MAX*/], //P2 picks
+        &'b mut [u8;2] //Their bet (what each of them entered not the total)
     ){
         mut_array_refs![
             array_mut_ref![data, self.offset, Match::LEN],
             32,
             32,
-            num_fights,
-            num_fights,
+            15, /*NUM_FIGHTS_MAX*/
+            15, /*NUM_FIGHTS_MAX*/
             2
         ]
     }
@@ -49,11 +50,11 @@ impl<'a> Match<'a>{
         self.slice(&mut self.data.borrow_mut()).1.copy_from_slice(value.as_ref());
     }
 
-    pub fn update_p1_picks(&self,value:&[u8;num_fights]){
+    pub fn update_p1_picks(&self,value:&[u8;15 /*NUM_FIGHTS_MAX*/]){
         self.slice(&mut self.data.borrow_mut()).2.copy_from_slice(value.as_ref());
     }
 
-    pub fn update_p2_picks(&self,value:&[u8;num_fights]){
+    pub fn update_p2_picks(&self,value:&[u8;15 /*NUM_FIGHTS_MAX*/]){
         self.slice(&mut self.data.borrow_mut()).3.copy_from_slice(value.as_ref());
     }
 
