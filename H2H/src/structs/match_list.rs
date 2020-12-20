@@ -3,7 +3,7 @@ use solana_program::{
     //program_pack::{Pack, Sealed},
 };
 use std::cell::RefCell;
-use arrayref::{array_mut_ref, array_ref, mut_array_refs};
+use arrayref::{array_mut_ref, mut_array_refs};
 use crate::structs::*;
 use byteorder::{ByteOrder, LittleEndian};
 //use std::borrow::BorrowMut;
@@ -36,6 +36,13 @@ impl<'a> MatchList<'a>{
     }
     pub fn set_count(&self,value: u16){
         LittleEndian::write_u16(self.slice(&mut self.data.borrow_mut()).0,value);
+    }
+
+    pub fn new(data: &'a RefCell<&'a mut [u8]>, offset: usize)->Result<MatchList,ProgramError>{
+        if data.borrow().len() < Self::LEN + offset {
+            //Error
+        }
+        Ok(MatchList{data,offset})
     }
 
     //Get a Match by index

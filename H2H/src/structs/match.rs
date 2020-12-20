@@ -1,12 +1,13 @@
 use std::cell::RefCell;
-use arrayref::{array_mut_ref, array_ref, array_refs, mut_array_refs};
+use arrayref::{array_mut_ref, mut_array_refs};
 use solana_program::{
     program_error::ProgramError,
     //program_pack::{IsInitialized, Pack, Sealed},
     pubkey::{Pubkey},
 };
+use byteorder::{ByteOrder, LittleEndian};
 //use std::borrow::BorrowMut;
-use crate::structs::*;
+//use crate::structs::*;
 
 pub struct Match<'a>{
     data: &'a RefCell<&'a mut [u8]>,
@@ -58,14 +59,14 @@ impl<'a> Match<'a>{
         self.slice(&mut self.data.borrow_mut()).3.copy_from_slice(value.as_ref());
     }
 
-    /*
+    
     pub fn get_bet(&self) -> Result<u16,ProgramError>{
-        //should this be returned as a u16 or &[u8,2]
+        Ok(LittleEndian::read_u16(self.slice(&mut self.data.borrow_mut()).4))
     }
-    pub fn set_bet(&self,value: ){
+    pub fn set_bet(&self,value: u16){
+        LittleEndian::write_u16(self.slice(&mut self.data.borrow_mut()).4,value)
+    }
 
-    }
-    */
     //Returns true if there are 2 non empty pubkeys
     pub fn get_is_full(&self) -> Result<bool,ProgramError> {
         let zero_arr : [u8;32] = [0;32];

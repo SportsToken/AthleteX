@@ -1,10 +1,10 @@
 use std::cell::RefCell;
 use crate::structs::*;
-use arrayref::{array_mut_ref, array_ref, mut_array_refs};
+use arrayref::{array_mut_ref, mut_array_refs};
 use solana_program::{
     program_error::ProgramError,
     //program_pack::{IsInitialized, Pack, Sealed},
-    pubkey::Pubkey,
+    //pubkey::Pubkey,
 };
 //use std::borrow::BorrowMut;
 
@@ -43,8 +43,9 @@ impl<'a> Root<'a>{
         self.slice(&mut self.data.borrow_mut()).1.copy_from_slice(value.as_ref());
     }
 
-    //get match list
-
+    pub fn get_match_list(&self) -> Result<MatchList<'a>,ProgramError>{
+        Ok(MatchList::new(self.data,self.offset + 1 + 15)?)
+    }
 
     pub fn new(data: &'a RefCell<&'a mut [u8]>) -> Result<Root,ProgramError>{
         if data.borrow().len() != Self::LEN{
