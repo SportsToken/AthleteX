@@ -3,9 +3,9 @@ use arrayref::{array_mut_ref, array_ref, array_refs, mut_array_refs};
 use solana_program::{
     program_error::ProgramError,
     //program_pack::{IsInitialized, Pack, Sealed},
-    pubkey::Pubkey,
+    pubkey::{Pubkey},
 };
-use std::borrow::BorrowMut;
+//use std::borrow::BorrowMut;
 use crate::structs::*;
 
 pub struct Match<'a>{
@@ -66,6 +66,14 @@ impl<'a> Match<'a>{
 
     }
     */
+    //Returns true if there are 2 non empty pubkeys
+    pub fn get_is_full(&self) -> Result<bool,ProgramError> {
+        let zero_arr : [u8;32] = [0;32];
+        let key1 = self.get_player_1()?.to_bytes();
+        let key2 = self.get_player_2()?.to_bytes();
+        Ok(!(key1 == zero_arr || key2 == zero_arr))
+    }
+
     pub fn new(data: &'a RefCell<&'a mut [u8]>, offset: usize)-> Result<Match,ProgramError>{
         if data.borrow().len() < Self::LEN + offset {
             //Error

@@ -6,7 +6,7 @@ use solana_program::{
     //program_pack::{IsInitialized, Pack, Sealed},
     pubkey::Pubkey,
 };
-use std::borrow::BorrowMut;
+//use std::borrow::BorrowMut;
 
 pub struct Root<'a>{
     data: &'a RefCell<&'a mut [u8]>,
@@ -37,6 +37,20 @@ impl<'a> Root<'a>{
     }
     pub fn set_num_fights(&self, value:u8){
         self.slice(&mut self.data.borrow_mut()).0[0] = value;
+    }
+
+    pub fn update_fight_results(&self,value: [u8;15]){
+        self.slice(&mut self.data.borrow_mut()).1.copy_from_slice(value.as_ref());
+    }
+
+    //get match list
+
+
+    pub fn new(data: &'a RefCell<&'a mut [u8]>) -> Result<Root,ProgramError>{
+        if data.borrow().len() != Self::LEN{
+            //Error
+        }
+        Ok(Root{data, offset:0})
     }
 }
 
