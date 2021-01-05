@@ -55,7 +55,7 @@
     "typescript": "3.8.3"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.5",
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8"
   }
