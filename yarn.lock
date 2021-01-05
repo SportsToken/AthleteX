@@ -1994,15 +1994,10 @@
   dependencies:
     "@types/googlemaps" "*"
 
-"@types/googlemaps@*":
-  version "3.40.5"
-  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.40.5.tgz#520e0e5526b295a86c493473c97c07f678ec41be"
-  integrity sha512-xYqO51dgJsZ+xgNUzYHW4zy/jII2RE0HU87bqMgggkp3nCGw/w7MYoQrUKyxIf0022XQ+iQwDua39wM30MG4MA==
-
-"@types/googlemaps@3.39.3":
-  version "3.39.3"
-  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.39.3.tgz#8664e424f335802c8aa46a94676666b0a0f31d97"
-  integrity sha512-L8O9HAVFZj0TuiS8h5ORthiMsrrhjxTC8XUusp5k47oXCst4VTm+qWKvrAvmYMybZVokbp4Udco1mNwJrTNZPQ==
+"@types/googlemaps@*", "@types/googlemaps@3.43.0":
+  version "3.43.0"
+  resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.43.0.tgz#e13e2aac873f1b7eab25648acf0c26f847ece4dd"
+  integrity sha512-4k6N1LKTmwHEG6zKNMfINqQS08jd3wYdmlBRfJpcKqUYC9A9uXzuO3irV6muI+PWg1DRAjlBuLfrQTmHNjzlGA==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.3"
