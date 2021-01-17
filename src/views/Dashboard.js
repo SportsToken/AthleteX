@@ -179,7 +179,106 @@ async makeTransaction() {
 
             </Col>
             <Col lg="6">
-              
+              <Card className="card-chart">
+                <CardHeader>
+                  <CardTitle tag="h3">
+                  View Pool
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                <tbody>
+                <tr>
+                <td>
+                  <p className="title">Liquidity Pool</p>
+                  <p className="text-muted">
+                    <a href="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet" target="_blank" >View Transactions</a>
+                  </p>
+                </td>
+                </tr>
+                <tr>
+                  <td>
+                  <p className="title">Change Player:{``}</p>
+                  <p className="text-muted">
+                    <input
+                  type="text"
+                  onChange={(e) => (e.target.value.trim() < 33) ? this.setState({recieveKey: this.state.poolKey}): this.setState({recieveKey: new PublicKey(e.target.value.trim())})}
+                />
+                </p>
+                  </td>
+                </tr>
+                <tr>
+                <Button onClick={() => this.makeTransaction()} > [Test] Send One Transaction</Button>
+
+                </tr>
+              </tbody>
+                </CardBody>
+                <CardFooter className="d-flex justify-content-center">
+                  { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
+                  
+                </CardFooter>
+              </Card>
+            </Col>
+          </Row>
+          
+          <Row>
+            <Col>
+            <Card>
+              <CardHeader>
+                  <CardTitle tag="h3">My Fighters</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                <Col md="4">Name</Col>
+                <Col >Division</Col>
+                <Col>Price</Col>
+                <Col xs="2">Win-Loss</Col>
+                <Col xs="1"></Col>
+                </Row>
+              </CardBody>
+              <AccordionWithHeader multipleOkay={true} >
+                {fighters.filter(fighter =>{if(fighter.isOwned){
+                  return true;
+                }else{
+                  return false;
+                }}).map(fighter =>{
+                  return(
+                  <AccordionNode key={fighter.id}>
+                  <AccordionHeader 
+                   titleColor="white"
+                   horizontalAlignment="centerSpaceBetween">
+                     <Col md="4">{fighter.name}</Col>
+                      <Col md="3">{fighter.division}</Col>
+                      <Col>{fighter.weight}</Col>
+                      <Col>{fighter.record}</Col>
+                      <Col xs="1">
+                        <Button onClick={() => this.sellTransaction(`${fighter.weight}`)}
+                          color="danger"
+                          id="4"
+                          size="sm"
+                          tag="label"
+                         >
+                          <input
+                             className="d-none"
+                            name="options"
+                            type="radio"
+                            onClick={() => this.logAction("sold",fighter)}
+                          />
+                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            Sell?
+                         </span>
+                        </Button>
+                      </Col>
+                  </AccordionHeader>
+                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
+                  </AccordionNode>
+                  );
+                })}
+
+                {/* array.forEach(element => {
+                  
+                }); */}
+              </AccordionWithHeader>
+            </Card>         
             </Col>
           </Row>
 
