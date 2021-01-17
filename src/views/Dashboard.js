@@ -238,7 +238,7 @@ async makeTransaction() {
               <Card className="card-chart">
                 <CardHeader>
                   <CardTitle tag="h3">
-                  Liquidity Pool
+                  View Pool
                   </CardTitle>
                 </CardHeader>
                 <CardBody>
