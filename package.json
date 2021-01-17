@@ -29,7 +29,7 @@
     "react-iframe": "^1.8.0",
     "react-notification-alert": "0.0.12",
     "react-router-dom": "5.1.2",
-    "react-scripts": "3.4.0",
+    "react-scripts": "4.0.1",
     "reactstrap": "8.4.1",
     "spl-token-wallet": "github:user2745/spl-wallet",
     "typescript": "3.8.3"
