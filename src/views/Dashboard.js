@@ -21,7 +21,7 @@ import classNames from "classnames";
 // react plugin used to create charts
 import { Line/*, Bar*/ } from "react-chartjs-2";
 
-import fighters from "fighters.js";
+import fighters from "../sdk/fighters"
 import hist from "transactionHistory";
 
 import {
@@ -42,29 +42,35 @@ import {
   CardTitle,
   CardFooter,
   Table,
+  //DropdownItem,
+  //UncontrolledDropdown,
+  //Label,
+  //FormGroup,
+  //Input,
+  //Table,
   Row,
   Col,
+  //UncontrolledTooltip
 } from "reactstrap";
 
+// core components
+import {
+  chartExample1,
+ // chartExample2,
+ // chartExample3,
+ // chartExample4
+} from "variables/charts.js";
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
+import Header from "components/Header/Header";
+import Welcome from "components/Header/Welcome";
 
 
 class Dashboard extends React.Component {
   constructor(props) {
-    let providerUrl = 'https://www.sollet.io';
-    const network = clusterApiUrl('devnet');
+
     super(props);
-    this.state = {
-      bigChartData: "data1",
-      accordions: "updated",
-      connection: new Connection(clusterApiUrl('devnet')),
-      wallet: new Wallet(providerUrl, network),
-      providerUrl: 'https://www.sollet.io',
-      network: clusterApiUrl('devnet'),
-      poolKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
-      recieveKey: new PublicKey('E1TGkB6aQmAe8uP3J8VMTyon1beUSY8ENkB3xym7hSYH'),
-    };
+
   }
   
   
@@ -82,12 +88,6 @@ class Dashboard extends React.Component {
       );
     }
 
-    componentDidMount() {
-      this.state.wallet.connect();
-      this.state.wallet.on('connect', publicKey => console.log('Connected to ' + publicKey.toBase58()));
-      this.state.wallet.on('disconnect', () => console.log('Disconnected'));
-    }
-
     setBgChartData = name => {
       this.setState({
         bigChartData: name
@@ -100,73 +100,11 @@ class Dashboard extends React.Component {
         });
     }
     
-    
-    async buyFromPool(transferAmountString) {
-      try {
-        let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
-        let transaction = SystemProgram.transfer({
-          fromPubkey: this.state.wallet.publicKey,
-          toPubkey: this.state.poolKey, //pool key
-          lamports: amount,
-        });
-        
-        transaction.recentBlockhash = (
-          await this.state.connection.getRecentBlockhash()
-      ).blockhash;
 
-      let signed = await this.state.wallet.signTransaction(transaction);
-      let signature = await this.state.connection.sendRawTransaction(signed.serialize());
-      await this.state.connection.confirmTransaction(signature, 1);
-
-    } catch (e) {
-      console.warn(e);
-    }
-  }
-
-  async sellAFighter(transferAmountString) {
-    try {
-      let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
-      let transaction = SystemProgram.transfer({
-        fromPubkey: this.state.wallet.publicKey,
-        toPubkey: this.state.recieveKey,
-        lamports: amount,
-      });
-      
-      transaction.recentBlockhash = (
-        await this.state.connection.getRecentBlockhash()
-    ).blockhash;
-
-    // let signed = await this.state.wallet.signTransaction(transaction);
-    // let signature = await this.state.connection.sendRawTransaction(signed.serialize());
-    // await this.state.connection.confirmTransaction(signature, 1);
-
-  } catch (e) {
-    console.warn(e);
-  }
-}
-
-async makeTransaction() {
-  try {
-    let transaction = SystemProgram.transfer({
-      fromPubkey: this.state.wallet.publicKey,
-      toPubkey: this.state.recieveKey,
-      lamports: Math.round(parseFloat("1") * 10 ** 9),
-    });
-    // addLog('Getting recent blockhash');
-    transaction.recentBlockhash = (
-      await this.state.connection.getRecentBlockhash()
-    ).blockhash;
-    // addLog('Sending signature request to wallet');
-    let signed = await this.state.wallet.signTransaction(transaction);
-    // addLog('Got signature, submitting transaction');
-    let signature = await this.state.connection.sendRawTransaction(signed.serialize());
-    // addLog('Submitted transaction ' + signature + ', awaiting confirmation');
-    await this.state.connection.confirmTransaction(signature, 1);
-    // addLog('Transaction ' + signature + ' confirmed');
-  } catch (e) {
-    console.warn(e);
-    // addLog('Error: ' + e.message);
-  }
+async copyToClipboard(copyItem)
+{
+  copyItem.select();
+  document.execCommand("copy");
 }
   
   
@@ -174,63 +112,19 @@ async makeTransaction() {
     return (
       <>
         <div className="content">
-           <Row>
-            <Col lg="6">
-
-            </Col>
-            <Col lg="6">
-              <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle tag="h3">
-                  View Pool
-                  </CardTitle>
-                </CardHeader>
-                <CardBody>
-                <tbody>
-                <tr>
-                <td>
-                  <p className="title">Liquidity Pool</p>
-                  <p className="text-muted">
-                    <a href="https://explorer.solana.com/tx/5djJU71EoLg6iwm6kdf1vvXPMq7qaFd6fv6qvmg6cBG93Kmc8apxULPDaLNrtkxoSUTcem7GYVhTb8bsDbQyAGvg?cluster=testnet" target="_blank" >View Transactions</a>
-                  </p>
-                </td>
-                </tr>
-                <tr>
-                  <td>
-                  <p className="title">Change Player:{``}</p>
-                  <p className="text-muted">
-                    <input
-                  type="text"
-                  onChange={(e) => (e.target.value.trim() < 33) ? this.setState({recieveKey: this.state.poolKey}): this.setState({recieveKey: new PublicKey(e.target.value.trim())})}
-                />
-                </p>
-                  </td>
-                </tr>
-                <tr>
-                <Button onClick={() => this.makeTransaction()} > [Test] Send One Transaction</Button>
-
-                </tr>
-              </tbody>
-                </CardBody>
-                <CardFooter className="d-flex justify-content-center">
-                  { this.state.poolKey.toString() === this.state.recieveKey.toString() ? <div>Pool Address: {this.state.poolKey.toString()}</div>: <div>Player Address: {this.state.recieveKey.toString()}</div>}
-                  
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-          
+          {/* <Header /> */}
+          <Welcome />
           <Row>
             <Col>
             <Card>
               <CardHeader>
-                  <CardTitle tag="h3">My Fighters</CardTitle>
+                  <CardTitle tag="h3">My Athletes</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
                 <Col md="4">Name</Col>
                 <Col >Division</Col>
-                <Col>Price</Col>
+                <Col>Price (AE tokens)</Col>
                 <Col xs="2">Win-Loss</Col>
                 <Col xs="1"></Col>
                 </Row>
@@ -251,7 +145,7 @@ async makeTransaction() {
                       <Col>{fighter.weight}</Col>
                       <Col>{fighter.record}</Col>
                       <Col xs="1">
-                        <Button onClick={() => this.sellTransaction(`${fighter.weight}`)}
+                        <Button onClick={() => "Sold!"}
                           color="danger"
                           id="4"
                           size="sm"
@@ -269,7 +163,11 @@ async makeTransaction() {
                         </Button>
                       </Col>
                   </AccordionHeader>
-                  <AccordionPanel><CardBody>Testing123</CardBody></AccordionPanel>
+                  <AccordionPanel>
+                    <CardBody>
+                      Athlete Token Address: 
+                    </CardBody>
+                    </AccordionPanel>
                   </AccordionNode>
                   );
                 })}
@@ -285,6 +183,61 @@ async makeTransaction() {
 
           <Row>
             <Col>
+            <Card>
+              <CardHeader>
+                <CardTitle tag="h3">Available Athletes</CardTitle>
+              </CardHeader>
+              <CardBody>
+                <Row>
+                <Col md="4">Name</Col>
+                <Col >Division</Col>
+                <Col>Price (AE Tokens)</Col>
+                <Col xs="2">Win-Loss</Col>
+                <Col xs="1"></Col>
+                </Row>
+              </CardBody>
+              <AccordionWithHeader>
+              {fighters.map((fighter,i)=>{
+                  return(
+                  <AccordionNode key={i}>
+                  <AccordionHeader 
+                   titleColor="white"
+                   horizontalAlignment="centerSpaceBetween">
+                     <Col md="4">{fighter.name}</Col>
+                      <Col md="3">{fighter.division}</Col>
+                      <Col>{fighter.weight}</Col>
+                      <Col>{fighter.record}</Col>
+                      <Col xs="1">
+                        <Button onClick={() => console.log("Bought!")}
+                          color="success"
+                          id="4"
+                          size="sm"
+                          tag="label"
+                          disabled={fighter.isOwned}
+                         >
+                          <input
+                             className="d-none"
+                            name="options"
+                            type="radio"
+                            onClick={() => this.logAction("Purchased",fighter)}
+                          />
+                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                            {fighter.isOwned?"Owned":"Buy"}
+                         </span>
+                        </Button>
+                      </Col>
+                  </AccordionHeader>
+                  <AccordionPanel>
+                    <CardBody>
+                    Athlete Token Address: 
+                    </CardBody>
+                  </AccordionPanel>
+                  </AccordionNode>
+                  );
+                })}
+
+                </AccordionWithHeader>
+            </Card>
             </Col>
           </Row>
         </div>
