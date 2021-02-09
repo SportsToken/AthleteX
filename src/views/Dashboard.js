@@ -21,7 +21,7 @@ import classNames from "classnames";
 // react plugin used to create charts
 import { Line/*, Bar*/ } from "react-chartjs-2";
 
-import fighters from "fighters.js";
+import fighters from "../sdk/fighters"
 import hist from "transactionHistory";
 
 import {
@@ -63,6 +63,7 @@ import {
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
 import Header from "components/Header/Header";
+import Welcome from "components/Header/Welcome";
 
 
 class Dashboard extends React.Component {
@@ -111,7 +112,8 @@ async copyToClipboard(copyItem)
     return (
       <>
         <div className="content">
-          <Header />
+          {/* <Header /> */}
+          <Welcome />
           <Row>
             <Col>
             <Card>
@@ -122,7 +124,7 @@ async copyToClipboard(copyItem)
                 <Row>
                 <Col md="4">Name</Col>
                 <Col >Division</Col>
-                <Col>Price</Col>
+                <Col>Price (AE tokens)</Col>
                 <Col xs="2">Win-Loss</Col>
                 <Col xs="1"></Col>
                 </Row>
@@ -183,13 +185,13 @@ async copyToClipboard(copyItem)
             <Col>
             <Card>
               <CardHeader>
-                <CardTitle tag="h3">Buy an Athlete</CardTitle>
+                <CardTitle tag="h3">Available Athletes</CardTitle>
               </CardHeader>
               <CardBody>
                 <Row>
                 <Col md="4">Name</Col>
                 <Col >Division</Col>
-                <Col>Price</Col>
+                <Col>Price (AE Tokens)</Col>
                 <Col xs="2">Win-Loss</Col>
                 <Col xs="1"></Col>
                 </Row>

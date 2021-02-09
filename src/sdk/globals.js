@@ -7,6 +7,11 @@ const connection;
         connection = new Connection(clusterApiUrl('testnet'))
       )();
 
+
+      (async () => {
+
+        })();
+
       // class Dashboard extends React.Component {
       //   constructor(props) {
       //     let providerUrl = 'https://www.sollet.io';
@@ -112,8 +117,13 @@ const connection;
     );
   }
 
-  export function mintNewAthleteToken() {
-    
+  export function mintNewAthleteToken(athName, athSymbol) {
+    let mint = new Account();
+    updateTokenName(
+      mint.publicKey,
+      ``,
+      ``
+    )
   }
 
  export async function requestAirdrop() {
