@@ -25,7 +25,8 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
-
+import AccountPlugin from "components/AccountPlugin/AccountPlugin.js";
+import Header from '../../components/Header/Header';
 import routes from "routes.js";
 
 import logo from "assets/img/react-logo.png";
@@ -111,7 +112,7 @@ class Admin extends React.Component {
     return (
       <>
         <div className="wrapper">
-          <Sidebar
+          {/* <Sidebar
             {...this.props}
             routes={routes}
             bgColor={this.state.backgroundColor}
@@ -121,32 +122,22 @@ class Admin extends React.Component {
               imgSrc: logo
             }}
             toggleSidebar={this.toggleSidebar}
-          />
+          /> */}
+          {/* <div className="header">
+            <Header />
+          </div> */}
           <div
             className="main-panel"
             ref="mainPanel"
             data={this.state.backgroundColor}
           >
-            <AdminNavbar
-              {...this.props}
-              brandText={this.getBrandText(this.props.location.pathname)}
-              toggleSidebar={this.toggleSidebar}
-              sidebarOpened={this.state.sidebarOpened}
-            />
             <Switch>
               {this.getRoutes(routes)}
               <Redirect from="*" to="/admin/dashboard"/>
             </Switch>
-            {// we don't want the Footer to be rendered on map page
-            this.props.location.pathname.indexOf("maps") !== -1 ? null : (
-              <Footer fluid />
-            )}
           </div>
         </div>
-        <FixedPlugin
-          bgColor={this.state.backgroundColor}
-          handleBgClick={this.handleBgClick}
-        />
+        <AccountPlugin />
       </>
     );
   }
