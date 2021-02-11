@@ -1,29 +1,49 @@
 import React, { Component } from "react";
-import Account from '../Account/Account';
-import UserProfile from '../../views/UserProfile';
+import { Button, Dropdown, DropdownToggle, Badge } from 'reactstrap';
+import { ConnectToMetamaskButton } from '../../utils/swap/eth';
+import { ConnectToSolButton } from '../Account/SolWallet';
 
-class AccountPlugin extends Component {
+function AccountPlugin(props) {
 
-    toggle = () => {
-        const accountPopup = document.getElementById("account");
-        accountPopup.classList.contains("show") ?
-        accountPopup.classList.remove("show") :
-        accountPopup.classList.add("show");
-    }
-    render() {
-        return (
-            <div className="fixed-plugin">
-                <div id="account" className="dropdown show-dropdown">
-                    <div onClick={this.toggle}>
-                    <i className="fa fa-address-book fa-4x"></i>
-                    </div>
-                    <div className="dropdown-menu show">
-                        <Account />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+    const [dropDownIsOpen, setdropDownIsOpen] = React.useState(false);
+    const handleClick = () => {
+        setdropDownIsOpen(!dropDownIsOpen);
+      };
+
+    return (
+        <div className="fixed-plugin">
+            <Dropdown isOpen={dropDownIsOpen} toggle={handleClick}>
+                <DropdownToggle tag="div">
+                    <i className="fa fa-cog fa-2x"></i>
+                </DropdownToggle>
+                <ul className="dropdown-menu show">
+                    <li className="header-title">
+                        Setup a wallet
+                    </li>
+                    <li className="adjustments-line">
+                        <div id="SolWallet">
+                        <ConnectToSolButton />
+                        </div>
+                    </li>
+                    <li className="adjustments-line">
+                        <div id="MetMaskWallet">
+                        <ConnectToMetamaskButton />
+                        </div>
+                    </li>
+                    <li className="header-title">Account Details</li>
+                    <li>
+                        window
+                    </li>
+                    <li>
+                        Public Key:
+                        Click me
+                    </li>
+                    <li></li>
+                </ul>
+            </Dropdown>
+        </div>
+    );
 }
 
 export default AccountPlugin;
+
