@@ -22,24 +22,10 @@ class Account extends React.Component {
 }
 
 export function ConnectToSolButton() {
-
-  if (window.SolWallet.connected)
-  {
-    return (
-      <>
-      <div >Wallet address: {window.SolWallet.publicKey.toBase58()}.</div>
-    </>
-    );
-  } 
-
     return (
       <Button onClick={() => window.SolWallet.connect()} > Connect to a Wallet</Button>
     )
 
 }
-
-( async => {
-  window.SolWallet.connected ? :
-})();
 
 export default Account;

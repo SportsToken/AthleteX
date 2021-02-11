@@ -2,10 +2,40 @@ import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import ERC20_ABI from './erc20-abi.json';
 import SWAP_ABI from './swap-abi.json';
-import Button from '@material-ui/core/Button';
-import { useCallAsync } from '../notifications';
+import { Button } from 'reactstrap';
+
 
 const web3 = new Web3(window.ethereum);
+
+export function useCallAsync() {
+  return async function callAsync(
+    promise,
+    {
+      progressMessage = 'Submitting...',
+      successMessage = 'Success',
+      onSuccess,
+      onError,
+    } = {},
+  ) {
+    try {
+      let result = await promise;
+
+      if (successMessage) {
+        console.log(successMessage);
+      }
+      if (onSuccess) {
+        console.log(result);
+      }
+    } catch (e) {
+      console.warn(e);
+      console.log(e);
+      if (onError) {
+        console.error(e);
+      }
+    }
+  };
+}
+
 
 export function useEthAccount() {
   const [account, setAccount] = useState(null);
@@ -193,7 +223,7 @@ export function ConnectToMetamaskButton() {
   if (!window.ethereum) {
     return (
       <Button
-        color="primary"
+        color="blue"
         variant="outlined"
         component="a"
         href="https://metamask.io/"
@@ -218,7 +248,7 @@ export function ConnectToMetamaskButton() {
   }
 
   return (
-    <Button color="primary" variant="outlined" onClick={connect}>
+    <Button color="blue" variant="outlined" onClick={connect} className="btn-round">
       Connect to MetaMask
     </Button>
   );

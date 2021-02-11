@@ -62,4 +62,4 @@ function Fighters() {
     );
 }
 
-expot default Fighters
+export default Fighters

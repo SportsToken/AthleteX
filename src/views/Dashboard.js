@@ -16,11 +16,6 @@
 
 */
 import React from "react";
-// nodejs library that concatenates classes
-import classNames from "classnames";
-// react plugin used to create charts
-import { Line/*, Bar*/ } from "react-chartjs-2";
-
 import fighters from "../sdk/fighters"
 import hist from "transactionHistory";
 
@@ -35,34 +30,16 @@ import {
 // reactstrap components
 import {
   Button,
-  ButtonGroup,
   Card,
   CardHeader,
   CardBody,
   CardTitle,
-  CardFooter,
-  Table,
-  //DropdownItem,
-  //UncontrolledDropdown,
-  //Label,
-  //FormGroup,
-  //Input,
-  //Table,
   Row,
   Col,
   //UncontrolledTooltip
 } from "reactstrap";
 
 // core components
-import {
-  chartExample1,
- // chartExample2,
- // chartExample3,
- // chartExample4
-} from "variables/charts.js";
-import Wallet from '@project-serum/sol-wallet-adapter';
-import { Connection, SystemProgram, clusterApiUrl, PublicKey } from '@solana/web3.js';
-import Header from "components/Header/Header";
 import Welcome from "components/Header/Welcome";
 
 
@@ -235,7 +212,6 @@ async copyToClipboard(copyItem)
                   </AccordionNode>
                   );
                 })}
-
                 </AccordionWithHeader>
             </Card>
             </Col>

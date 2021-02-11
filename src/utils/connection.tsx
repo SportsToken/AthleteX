@@ -7,15 +7,22 @@ import {
 } from '@solana/web3.js';
 import { useLocalStorageState, useRefEqual } from './utils';
 import { refreshCache, setCache, useAsyncData } from './fetch-loop';
+// @ts-ignore
 import tuple from 'immutable-tuple';
 
 const ConnectionContext = React.createContext<{
   endpoint: string;
-  setEndpoint: (string) => void;
+  setEndpoint: (string: string) => void;
   connection: Connection;
 } | null>(null);
 
+interface Props {
+  children: React.Component;
+}
+
 export const MAINNET_URL = 'https://solana-api.projectserum.com';
+
+// @ts-ignore
 export function ConnectionProvider({ children }) {
   const [endpoint, setEndpoint] = useLocalStorageState(
     'connectionEndpoint',
@@ -73,11 +80,11 @@ export function useSolanaExplorerUrlSuffix() {
 
 export function useAccountInfo(publicKey?: PublicKey) {
   const connection = useConnection();
-  // const cacheKey = tuple(connection, publicKey?.toBase58());
-  // const [accountInfo, loaded] = useAsyncData(
-  //   async () => (publicKey ? connection.getAccountInfo(publicKey) : null),
-  //   cacheKey,
-  // );
+  const cacheKey = tuple(connection, publicKey?.toBase58());
+  const [accountInfo, loaded] = useAsyncData(
+    async () => (publicKey ? connection.getAccountInfo(publicKey) : null),
+    cacheKey,
+  );
   useEffect(() => {
     if (!publicKey) {
       return;
@@ -111,12 +118,12 @@ export function useAccountInfo(publicKey?: PublicKey) {
   ];
 }
 
-export function refreshAccountInfo(connection, publicKey, clearCache = false) {
-  // const cacheKey = tuple(connection, publicKey.toBase58());
-  // refreshCache(cacheKey, clearCache);
+export function refreshAccountInfo(connection: Connection, publicKey: PublicKey, clearCache = false) {
+  const cacheKey = tuple(connection, publicKey.toBase58());
+  refreshCache(cacheKey, clearCache);
 }
 
-export function setInitialAccountInfo(connection, publicKey, accountInfo) {
-  // const cacheKey = tuple(connection, publicKey.toBase58());
-  // setCache(cacheKey, accountInfo, { initializeOnly: true });
+export function setInitialAccountInfo(connection: Connection, publicKey: PublicKey, accountInfo: any) {
+  const cacheKey = tuple(connection, publicKey.toBase58());
+  setCache(cacheKey, accountInfo, { initializeOnly: true });
 }
