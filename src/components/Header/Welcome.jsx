@@ -1,8 +1,29 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, CardFooter, CardTitle, Col, Row, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardFooter, CardTitle, Button } from 'reactstrap';
 
 
 export default function Welcome() {
+
+    const [MOTD, setMOTD] = React.useState("we are Live on the Solana testnet!");
+
+    (async ()=>{
+          const messageArray = [
+            "Welcome to Athlete Equity",
+            "Market DEX coming soon!",
+            "Congratulations Tom Brady!",
+            "Join our Discord!",
+            "Follow us on Twitter!",
+            "© Copyright Athlete Equity 2021.  All Rights Reserved",
+            "Follow us on Twitter!",
+            "Got a question? Send us an email at sam@athlete-equity.com",
+            "Will the Clemson Tigers ever make it to the Superdome ?",
+            "Good Vibes, good times",
+            "Trade player tokens on our Swap!"  ];
+            setInterval(() => {
+              let o = Math.round(Math.random() * 10);
+              setMOTD(messageArray[o]);
+      }, 10029);
+    })()
 
 
     return (
@@ -47,11 +68,11 @@ export default function Welcome() {
           </div>
           <div className="text-center">
           <div>
-            <a href="https://dex.athlete-equity.com">
+            {/* <a href="https://dex.athlete-equity.com">
             <Button>
             Take me to the Marketplace
             </Button>
-            </a>
+            </a> */}
           </div>
           <div>
               <a href="http://swap.athlete-equity.com">
@@ -63,11 +84,11 @@ export default function Welcome() {
           </div>
         </CardBody>
         <CardFooter className="text-center">
-          <h4>© Copyright Athlete Equity 2021.  All Rights Reserved</h4>
+          <h4 id="motd" >{MOTD}</h4>  {/* This can become a type of MOTD display */}
         <div className="button-container">
-                    <Button className="btn-icon btn-round" color="facebook">
+                    {/* <Button className="btn-icon btn-round" color="facebook">
                       <i className="fab fa-facebook" />
-                    </Button>
+                    </Button> */}
                     <a href="https://discord.gg/6rCNc7x9DH">
                     <Button className="btn-icon btn-round" color="google">
                       <i className="fab fa-discord" />
