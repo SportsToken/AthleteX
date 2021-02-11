@@ -8,7 +8,8 @@ export async function sleep(ms: number) {
 export function useLocalStorageState<T>(
   key: string,
   defaultState: T,
-): [T, (T) => void] {
+
+): [T, (T: T) => void] {
   const [state, setState] = useState(() => {
     let storedState = localStorage.getItem(key);
     if (storedState) {
@@ -43,7 +44,7 @@ export function useEffectAfterTimeout(effect: () => void, timeout: number) {
   });
 }
 
-export function useListener(emitter, eventName: string) {
+export function useListener(emitter: any, eventName: string) {
   let [, forceUpdate] = useState(0);
   useEffect(() => {
     let listener = () => forceUpdate((i) => i + 1);

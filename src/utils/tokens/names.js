@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { useConnectionConfig, MAINNET_URL } from '../connection';
+import { useConnectionConfig, MAINNET_URL } from '../.connection';
 import { useListener } from '../utils';
 import { useCallback } from 'react';
 

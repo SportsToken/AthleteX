@@ -1,5 +1,6 @@
 import assert from 'assert';
 import { useEffect, useReducer } from 'react';
+//@ts-ignore
 import tuple from 'immutable-tuple';
 
 const pageLoadTime = new Date();
@@ -9,7 +10,7 @@ const globalCache: Map<any, any> = new Map();
 class FetchLoops {
   loops = new Map();
 
-  addListener(listener) {
+  addListener(listener: any) {
     if (!this.loops.has(listener.cacheKey)) {
       this.loops.set(
         listener.cacheKey,
@@ -19,7 +20,7 @@ class FetchLoops {
     this.loops.get(listener.cacheKey).addListener(listener);
   }
 
-  removeListener(listener) {
+  removeListener(listener: any) {
     let loop = this.loops.get(listener.cacheKey);
     loop.removeListener(listener);
     if (loop.stopped) {
@@ -27,13 +28,14 @@ class FetchLoops {
     }
   }
 
-  refresh(cacheKey) {
+  refresh(cacheKey: any) {
     if (this.loops.has(cacheKey)) {
       this.loops.get(cacheKey).refresh();
     }
   }
 
   refreshAll() {
+    // @ts-expect-error
     return Promise.all([...this.loops.values()].map((loop) => loop.refresh()));
   }
 }
@@ -75,7 +77,7 @@ class FetchLoopInternal<T = any> {
 
   get refreshInterval(): number {
     return Math.min(
-      ...[...this.listeners].map((listener) => listener.refreshInterval),
+      ...[...this.listeners].map((listener: any) => listener.refreshInterval),
     );
   }
 
@@ -102,7 +104,7 @@ class FetchLoopInternal<T = any> {
   }
 
   notifyListeners(): void {
-    this.listeners.forEach((listener) => listener.callback());
+    this.listeners.forEach((listener: any) => listener.callback());
   }
 
   refresh = async () => {
@@ -186,7 +188,7 @@ export function useAsyncData<T = any>(
   return [data, loaded];
 }
 
-export function refreshCache(cacheKey, clearCache = false) {
+export function refreshCache(cacheKey: any, clearCache = false) {
   cacheKey = formatCacheKey(cacheKey);
   if (clearCache) {
     globalCache.delete(cacheKey);
@@ -200,7 +202,7 @@ export function refreshCache(cacheKey, clearCache = false) {
   }
 }
 
-export function setCache(cacheKey, value, { initializeOnly = false } = {}) {
+export function setCache(cacheKey: any, value: any, { initializeOnly = false } = {}) {
   cacheKey = formatCacheKey(cacheKey);
   if (initializeOnly && globalCache.has(cacheKey)) {
     return;
@@ -212,7 +214,7 @@ export function setCache(cacheKey, value, { initializeOnly = false } = {}) {
   }
 }
 
-function formatCacheKey(cacheKey) {
+function formatCacheKey(cacheKey: any) {
   if (Array.isArray(cacheKey)) {
     return tuple(...cacheKey);
   }
