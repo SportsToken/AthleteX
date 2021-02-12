@@ -21,12 +21,12 @@ interface Props {
 }
 
 export const MAINNET_URL = 'https://solana-api.projectserum.com';
-
+export const TESTNET_URL = 'https://testnet.solana.com';
 // @ts-ignore
 export function ConnectionProvider({ children }) {
   const [endpoint, setEndpoint] = useLocalStorageState(
     'connectionEndpoint',
-    MAINNET_URL,
+    TESTNET_URL,
   );
 
   const connection = useMemo(() => new Connection(endpoint, 'recent'), [
@@ -49,11 +49,8 @@ export function useConnection(): Connection {
 }
 
 export function useConnectionConfig() {
-  let context = useContext(ConnectionContext);
-  if (!context) {
-    throw new Error('Missing connection context');
-  }
-  return { endpoint: context.endpoint, setEndpoint: context.setEndpoint };
+
+  return { endpoint: TESTNET_URL, setEndpoint: '' };
 }
 
 export function useIsProdNetwork() {
