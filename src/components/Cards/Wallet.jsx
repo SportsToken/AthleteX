@@ -38,7 +38,7 @@ function Wallet() {
         <div >Wallet address: {this.state.wallet.publicKey.toBase58()}.</div>
       </>
     ) : (
-      <Button onClick={() => this.state.wallet.connect()} > Connect to a Wallet</Button>
+      <Button onClick={() => this.state.wallet.connect()} > Connect to Sollet</Button>
     )}
       </CardFooter>
       </Card>

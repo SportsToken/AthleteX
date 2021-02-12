@@ -248,7 +248,7 @@ export function ConnectToMetamaskButton() {
   }
 
   return (
-    <Button color="blue" variant="outlined" onClick={connect} className="btn-round">
+    <Button color="blue" variant="outlined" onClick={connect} className="btn-round" disabled>
       Connect to MetaMask
     </Button>
   );

@@ -2,11 +2,9 @@ import React from 'react';
 import { Connection, clusterApiUrl, PublicKey } from '@solana/web3.js';
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { Button } from 'reactstrap';
+import { wallet } from '../../sdk/globals';
 
-let providerUrl = 'https://www.sollet.io';
-const network = clusterApiUrl('testnet');
-const connection = new Connection(clusterApiUrl('testnet'))
-window.SolWallet = new Wallet(providerUrl, network);
+window.SolWallet = wallet;
 // save to local
 
 
@@ -23,7 +21,7 @@ class Account extends React.Component {
 
 export function ConnectToSolButton() {
     return (
-      <Button onClick={() => window.SolWallet.connect()} > Connect to a Wallet</Button>
+      <Button onClick={() => window.SolWallet.connect()} className="btn-round" > Connect to Sollet</Button>
     )
 
 }

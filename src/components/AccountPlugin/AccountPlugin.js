@@ -32,7 +32,7 @@ function AccountPlugin(props) {
                     </li>
                     <li className="header-title">Account Details</li>
                     <li>
-                        window
+                        
                     </li>
                     <li>
                         Public Key:

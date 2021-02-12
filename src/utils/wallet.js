@@ -26,7 +26,6 @@ import { refreshCache, useAsyncData } from './fetch-loop';
 import { getUnlockedMnemonicAndSeed, walletSeedChanged } from './wallet-seed';
 import { WalletProviderFactory } from './walletProvider/factory';
 import { getAccountFromSeed } from './walletProvider/localStorage';
-import { useSnackbar } from 'notistack';
 
 const DEFAULT_WALLET_SELECTOR = {
   walletIndex: 0,
@@ -128,7 +127,7 @@ const WalletContext = React.createContext(null);
 export function WalletProvider({ children }) {
   useListener(walletSeedChanged, 'change');
   const { mnemonic, seed, importsEncryptionKey } = getUnlockedMnemonicAndSeed();
-  const { enqueueSnackbar } = useSnackbar();
+
   const connection = useConnection();
   const [wallet, setWallet] = useState();
 
@@ -168,7 +167,6 @@ export function WalletProvider({ children }) {
           if (e.statusCode) {
             message += `: ${e.statusCode}`;
           }
-          enqueueSnackbar(message, { variant: 'error' });
           setWalletSelector(DEFAULT_WALLET_SELECTOR);
           setLedgerPubKey(undefined);
           return;
@@ -204,7 +202,6 @@ export function WalletProvider({ children }) {
     privateKeyImports,
     importsEncryptionKey,
     setWalletSelector,
-    enqueueSnackbar,
   ]);
 
   function addAccount({ name, importedAccount, ledger }) {

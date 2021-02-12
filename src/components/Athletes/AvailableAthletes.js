@@ -65,7 +65,12 @@ class AvailableAthletes extends React.Component {
                 </AccordionHeader>
                 <AccordionPanel>
                   <CardBody>
-                  Athlete Token Address: 
+                  <Col md="6">
+                  Solana Token Address: 
+                  </Col>
+                  <Col md="6">
+                  ERC Token Address: 
+                  </Col>
                   </CardBody>
                 </AccordionPanel>
                 </AccordionNode>

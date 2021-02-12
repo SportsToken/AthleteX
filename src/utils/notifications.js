@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useConnection, useSolanaExplorerUrlSuffix } from './connection';
-import Button from '@material-ui/core/Button';
+import { Button } from 'reactstrap';
+
 import { confirmTransaction } from './utils';
 
 export function useSendTransaction() {
@@ -67,7 +68,6 @@ function ViewTransactionOnExplorerButton({ signature }) {
 }
 
 export function useCallAsync() {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   return async function callAsync(
     promise,
     {
@@ -83,17 +83,14 @@ export function useCallAsync() {
     });
     try {
       let result = await promise;
-      closeSnackbar(id);
       if (successMessage) {
-        enqueueSnackbar(successMessage, { variant: 'success' });
+        console.log(`${successMessage}`);
       }
       if (onSuccess) {
         onSuccess(result);
       }
     } catch (e) {
       console.warn(e);
-      closeSnackbar(id);
-      enqueueSnackbar(e.message, { variant: 'error' });
       if (onError) {
         onError(e);
       }
