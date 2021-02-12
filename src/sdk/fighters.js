@@ -1,8 +1,4 @@
 
-function fighterPrice() {
-    return Math.floor((Math.random() * 10) + 1);
-}
-
 var fighters = [
     {
         id: 0,
@@ -11,8 +7,8 @@ var fighters = [
         record: "29-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 10 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 10, //% of pool occupied
+        tokenAddress: ''
     },
     {
         id: 1,
@@ -21,8 +17,8 @@ var fighters = [
         record: "23-2-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 5 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 5,
+        tokenAddress: ''
     },
     {
         id: 2,
@@ -31,8 +27,8 @@ var fighters = [
         record: "26-6-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 6 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 6,
+        tokenAddress: ''
     },
     {
         id: 3,
@@ -41,8 +37,8 @@ var fighters = [
         record: "26-5-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 3 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 3,
+        tokenAddress: ''
     },
     {
         id: 4,
@@ -51,8 +47,8 @@ var fighters = [
         record: "22-4-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 4 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 4,
+        tokenAddress: ''
     },
     {
         id: 5,
@@ -61,8 +57,8 @@ var fighters = [
         record: "20-9-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 4 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 4,
+        tokenAddress: ''
     },
     {
         id: 6,
@@ -71,8 +67,8 @@ var fighters = [
         record: "29-8-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 7 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 7,
+        tokenAddress: ''
     },
     {
         id: 7,
@@ -81,8 +77,8 @@ var fighters = [
         record: "17-5-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 1 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 1,
+        tokenAddress: ''
     },
     {
         id: 8,
@@ -91,8 +87,8 @@ var fighters = [
         record: "17-2-0", //want to replace with dataPath
         isOwned: false,
         //pool: "ufc-lightweight-pool"
-        weight: 5 //% of pool occupied
-        //dataPath: "/variables/fighterData.js"
+        weight: 5,
+        tokenAddress: ''
     },
     {
         id: 9,
