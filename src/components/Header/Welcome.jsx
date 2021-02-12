@@ -1,30 +1,29 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, CardTitle, Button } from 'reactstrap';
 
+(async ()=>{
+  const messageArray = [
+    "Welcome to Athlete Equity",
+    "Market DEX coming soon!",
+    "Congratulations Tom Brady!",
+    "Join our Discord!",
+    "Follow us on Twitter!",
+    "© Copyright Athlete Equity 2021.  All Rights Reserved",
+    "Follow us on Twitter!",
+    "Got a question? Send us an email at sam@athlete-equity.com",
+    "Will the Clemson Tigers ever make it to the Superdome ?",
+    "Good Vibes, good times",
+    "Trade player tokens on our Swap!"  ];
+    setInterval(() => {
+      let o = Math.round(Math.random() * 10);
+      document.getElementById("motd").innerText = messageArray[o];
+      // setMOTD(messageArray[o]);
+}, 10029);
+})()
 
 export default function Welcome() {
 
     const [MOTD, setMOTD] = React.useState("we are Live on the Solana testnet!");
-
-    (async ()=>{
-          const messageArray = [
-            "Welcome to Athlete Equity",
-            "Market DEX coming soon!",
-            "Congratulations Tom Brady!",
-            "Join our Discord!",
-            "Follow us on Twitter!",
-            "© Copyright Athlete Equity 2021.  All Rights Reserved",
-            "Follow us on Twitter!",
-            "Got a question? Send us an email at sam@athlete-equity.com",
-            "Will the Clemson Tigers ever make it to the Superdome ?",
-            "Good Vibes, good times",
-            "Trade player tokens on our Swap!"  ];
-            setInterval(() => {
-              let o = Math.round(Math.random() * 10);
-              setMOTD(messageArray[o]);
-      }, 10029);
-    })()
-
 
     return (
         <Card>
@@ -43,27 +42,27 @@ export default function Welcome() {
           </div>
           <div className="typography-line">
             <p className="text-primary">
-            Create a team of the best athletes, earn passive income, and get rich too...
+            Purchase tokens of the best athletes, earn passive income, and get rich too...
             </p>
           </div>
           <div className="typography-line">
             <p className="text-info">
-            Create a team of the best athletes, earn passive income, and get rich too...
+            Purchase tokens of the best athletes, earn passive income, and get rich too...
             </p>
           </div>
           <div className="typography-line">
             <p className="text-success">
-            Create a team of the best athletes, earn passive income, and get rich too...
+            Purchase tokens of the best athletes, earn passive income, and get rich too...
             </p>
           </div>
           <div className="typography-line">
             <p className="text-warning">
-            Create a team of the best athletes, earn passive income, and get rich too...
+            Purchase tokens of the best athletes, earn passive income, and get rich too...
             </p>
           </div>
           <div className="typography-line">
             <p className="text-danger">
-            Create a team of the best athletes, earn passive income, and get rich too...
+            Purchase tokens of the best athletes, earn passive income, and get rich too...
             </p>
           </div>
           <div className="text-center">

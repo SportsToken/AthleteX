@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { useConnectionConfig, MAINNET_URL } from '../connection';
+import { useConnectionConfig, MAINNET_URL, TESTNET_URL } from '../connection';
 import { useListener } from '../utils';
 import { useCallback } from 'react';
 
@@ -231,8 +231,8 @@ export function useTokenName(mint) {
 }
 
 export function useUpdateTokenName() {
-  const { endpoint } = useConnectionConfig();
-  return useCallback(
+  const { endpoint } = TESTNET_URL;
+  return (
     function updateTokenName(mint, name, symbol) {
       if (!name || !symbol) {
         if (name) {
@@ -253,6 +253,6 @@ export function useUpdateTokenName() {
       );
       nameUpdated.emit('update');
     },
-    [endpoint],
-  );
+    [endpoint]
+  )
 }

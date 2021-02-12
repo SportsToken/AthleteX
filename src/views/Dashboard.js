@@ -50,20 +50,6 @@ class Dashboard extends React.Component {
 
   }
   
-  
-  logAction = (action,fighter) => {
-    return(
-      hist.push({
-        action: action,
-        name: fighter.name,
-        division: fighter.division,
-        date: function date() { return new Date().getDate()}, //Need to create method to get accurate date
-        price:""
-      }),
-      fighter.isOwned = !fighter.isOwned,
-      this.setState({state: this.state})
-      );
-    }
 
     setBgChartData = name => {
       this.setState({
@@ -132,7 +118,7 @@ async copyToClipboard(copyItem)
                              className="d-none"
                             name="options"
                             type="radio"
-                            onClick={() => this.logAction("sold",fighter)}
+                            onClick={() => }
                           />
                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                             Sell?
@@ -148,10 +134,6 @@ async copyToClipboard(copyItem)
                   </AccordionNode>
                   );
                 })}
-
-                {/* array.forEach(element => {
-                  
-                }); */}
               </AccordionWithHeader>
             </Card>         
             </Col>
@@ -196,7 +178,7 @@ async copyToClipboard(copyItem)
                              className="d-none"
                             name="options"
                             type="radio"
-                            onClick={() => this.logAction("Purchased",fighter)}
+                            onClick={() => }
                           />
                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                             {fighter.isOwned?"Owned":"Buy"}
@@ -204,9 +186,16 @@ async copyToClipboard(copyItem)
                         </Button>
                       </Col>
                   </AccordionHeader>
-                  <AccordionPanel>
+                  <AccordionPanel horizontalAlignment="centerSpaceBetween">
                     <CardBody>
-                    Athlete Token Address: 
+                      <Row>
+                        <Col md="4">
+                            Solana Token Address: 
+                        </Col>
+                        <Col md="3">
+                            ERC Token Address: 
+                        </Col>
+                      </Row>
                     </CardBody>
                   </AccordionPanel>
                   </AccordionNode>
