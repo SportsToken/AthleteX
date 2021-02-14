@@ -36,7 +36,6 @@ import {
   CardTitle,
   Row,
   Col,
-  //UncontrolledTooltip
 } from "reactstrap";
 
 // core components
@@ -49,20 +48,6 @@ class Dashboard extends React.Component {
     super(props);
 
   }
-  
-
-    setBgChartData = name => {
-      this.setState({
-        bigChartData: name
-      });
-    };
-    
-    setProviderUrl = url => {
-        this.setState({
-          providerUrl: url
-        });
-    }
-    
 
 async copyToClipboard(copyItem)
 {
@@ -118,7 +103,7 @@ async copyToClipboard(copyItem)
                              className="d-none"
                             name="options"
                             type="radio"
-                            onClick={() => }
+                            onClick={() => alert(`Sold ${fighter.name}`)}
                           />
                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                             Sell?
@@ -178,7 +163,7 @@ async copyToClipboard(copyItem)
                              className="d-none"
                             name="options"
                             type="radio"
-                            onClick={() => }
+                            onClick={() => alert(`Bought ${fighter.name}`)}
                           />
                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
                             {fighter.isOwned?"Owned":"Buy"}

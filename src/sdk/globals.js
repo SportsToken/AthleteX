@@ -10,12 +10,22 @@ import { TOKEN_PROGRAM_ID, mintTo, initializeAccount, initializeMint } from '../
 import { refreshAccountInfo } from '../utils/connection';
 import { signAndSendTransaction } from '../utils/tokens/index';
 
+// 
+// IMPORTANT: This file serves as the gateway between the utils/ folder & the broker
+// Please DO NOT instantiate nor call methods from utils/ , always refer to globals
+// 
 
 export const providerUrl = 'https://www.sollet.io';
 export const LIVE_NETWORK = 'testnet';
 const network = clusterApiUrl(LIVE_NETWORK);
-export const wallet = new Wallet(providerUrl, network);
+
+export const wallet = window.solWallet.connected() ? window.solWallet : new Wallet(providerUrl, network);
+
+// Federal Reserve Account ( mint authority );
+const AEReseve = new Wallet();
+
 export const connection = new Connection(clusterApiUrl(LIVE_NETWORK));
+
 const updateTokenName = useUpdateTokenName();
 const callAsync = useCallAsync();
 
@@ -41,32 +51,10 @@ export async function addToken({
       updateTokenName(mint, tokenName, tokenSymbol);
       return await wallet.createTokenAccount(mint);
       }
-      
-      let valid = true;
 
-    export async function sendTransaction(fromKey, toKey, transferAmountString) {
-        try {
-          let amount = Math.round(parseFloat(transferAmountString) * 10 ** 9);
-          let transaction = SystemProgram.transfer({
-            fromPubkey: fromKey,
-            toPubkey: toKey, //pool key
-            lamports: amount,
-          });
-          
-          transaction.recentBlockhash = (
-            await connection.getRecentBlockhash()
-        ).blockhash;
-  
-        let signed = await wallet.signTransaction(transaction);
-        let signature = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(signature, 1);
-  
-      } catch (e) {
-        console.warn(e);
-      }
-    }
 
-  
+
+
   export async function makeTransaction() {
     try {
       let transaction = SystemProgram.transfer({
@@ -111,12 +99,22 @@ export async function addToken({
     );
   }
 
-  export function mintNewAthleteToken(athName, athSymbol) {
+  export function mintAthleteToken(athName, athSymbol) {
     let mint = new Account();
     updateTokenName(
       mint.publicKey,
       `${athName}`,
       `${athSymbol}`
+    );
+    sendTransaction(
+      createAndInitializeMint({
+        connection: wallet.connection,
+        owner: wallet,
+        mint,
+        amount: 1000000000,
+        decimals: 2,
+        initialAccount: new Account()
+      }), { onSuccess: () => refreshWalletPublicKeys(wallet) },
     );
   }
 
@@ -134,9 +132,20 @@ export async function addToken({
     );
   }
 
+  async function recievePayout(payoutPrice) {
+    var returnPrice = payoutPrice * LAMPORTS_PER_SOL
+    wallet.connection.requestAirdrop(window.solWallet.publicKey, returnPrice),
+    {
+      onSuccess: async () => {
+        await sleep(5000);
+        alert(`You've recieved ${returnPrice}`);
+      }
+    }
+  }
+
   export async function createAndInitializeMint({
       connection,
-      owner, // Wallet for paying fees and allowed to mint new tokens
+      owner, // Wallet for paying fees and allowed to mint new tokens i.e. freeze/mint authority
       mint, // Account to hold token information
       amount, // Number of tokens to issue
       decimals,
