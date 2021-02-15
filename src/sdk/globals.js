@@ -2,14 +2,12 @@ import { Account, LAMPORTS_PER_SOL, Connection, SystemProgram, clusterApiUrl, Pu
 import Wallet from '@project-serum/sol-wallet-adapter';
 import { swapApiRequest } from '../utils/swap/api';
 import { useCallAsync } from '../utils/swap/eth';
-import { useUpdateTokenName } from '../utils/tokens/names';
 import { MINT_LAYOUT, ACCOUNT_LAYOUT } from '../utils/tokens/data';
 import { sleep} from '../utils/utils';
 import { refreshWalletPublicKeys } from 'utils/wallet';
 import { TOKEN_PROGRAM_ID, mintTo, initializeAccount, initializeMint } from '../utils/tokens/instructions';
 import { refreshAccountInfo } from '../utils/connection';
 import { signAndSendTransaction } from '../utils/tokens/index';
-
 // 
 // IMPORTANT: This file serves as the gateway between the utils/ folder & the broker
 // Please DO NOT instantiate nor call methods from utils/ , always refer to globals
@@ -19,40 +17,36 @@ export const providerUrl = 'https://www.sollet.io';
 export const LIVE_NETWORK = 'testnet';
 const network = clusterApiUrl(LIVE_NETWORK);
 
-export const wallet = window.solWallet.connected() ? window.solWallet : new Wallet(providerUrl, network);
-
+export const wallet = new Wallet(providerUrl, network);
+ 
 // Federal Reserve Account ( mint authority );
-const AEReseve = new Wallet();
-
+// const AEReseve = new Wallet();
 export const connection = new Connection(clusterApiUrl(LIVE_NETWORK));
 
-const updateTokenName = useUpdateTokenName();
+
 const callAsync = useCallAsync();
 
 export async function addToken({
-      mintAddress,
-      tokenName,
-      tokenSymbol,
-      erc20Address,
-      }) {
-      if (erc20Address) {
-            // checks if erc20 address is valid
-            let valid = erc20Address.length === 42 && erc20Address.startsWith('0x');
-            let tokenInfo = await swapApiRequest('POST', `coins/eth/${erc20Address}`);
-            mintAddress = tokenInfo.splMint;
-            tokenName = tokenInfo.name;
-            tokenSymbol = tokenInfo.ticker;
-            if (tokenInfo.blockchain !== 'sol') {
-            tokenName = 'Wrapped ' + tokenName;
-            }
-      }
-      
-      let mint = new PublicKey(mintAddress);
-      updateTokenName(mint, tokenName, tokenSymbol);
-      return await wallet.createTokenAccount(mint);
-      }
-
-
+    mintAddress,
+    tokenName,
+    tokenSymbol,
+    erc20Address,
+    }) {
+    if (erc20Address) {
+          // checks if erc20 address is valid
+          let valid = erc20Address.length === 42 && erc20Address.startsWith('0x');
+          let tokenInfo = await swapApiRequest('POST', `coins/eth/${erc20Address}`);
+          mintAddress = tokenInfo.splMint;
+          tokenName = tokenInfo.name;
+          tokenSymbol = tokenInfo.ticker;
+          if (tokenInfo.blockchain !== 'sol') {
+          tokenName = 'Wrapped ' + tokenName;
+          }
+    }
+    
+    let mint = new PublicKey(mintAddress);
+    return await wallet.createTokenAccount(mint);
+    }
 
 
   export async function makeTransaction() {
@@ -78,69 +72,31 @@ export async function addToken({
       // addLog('Error: ' + e.message);
     }
   }
-  
-  export function mintTestToken() {
-    let mint = new Account();
-    updateTokenName(
-      mint.publicKey,
-      `Test Token ${(mint.publicKey)}`,
-      `TEST${mint.publicKey.toBase58().slice(0, 2)}`,
-    );
-    sendTransaction(
-      createAndInitializeMint({
-        connection: wallet.connection,
-        owner: wallet,
-        mint,
-        amount: 1000,
-        decimals: 2,
-        initialAccount: new Account(),
-      }),
-      { onSuccess: () => refreshWalletPublicKeys(wallet) },
-    );
-  }
 
-  export function mintAthleteToken(athName, athSymbol) {
+  export function mintAthleteToken($athName, $athSymbol, $amount) {
     let mint = new Account();
-    updateTokenName(
-      mint.publicKey,
-      `${athName}`,
-      `${athSymbol}`
-    );
-    sendTransaction(
       createAndInitializeMint({
-        connection: wallet.connection,
+        connection: connection,
         owner: wallet,
         mint,
-        amount: 1000000000,
+        amount: $amount,
         decimals: 2,
         initialAccount: new Account()
-      }), { onSuccess: () => refreshWalletPublicKeys(wallet) },
-    );
+      }).then((success) => {refreshWalletPublicKeys(wallet) });
   }
 
  export async function requestAirdrop() {
     callAsync(
-      wallet.connection.requestAirdrop(wallet.publicKey, LAMPORTS_PER_SOL),
+      connection.requestAirdrop(wallet.publicKey, LAMPORTS_PER_SOL),
       {
         onSuccess: async () => {
           await sleep(5000);
-          refreshAccountInfo(wallet.connection, wallet.publicKey);
+          refreshAccountInfo(connection, wallet.publicKey);
         },
         successMessage:
           'Success! Please wait up to 30 seconds for the SOL tokens to appear in your wallet.',
       },
     );
-  }
-
-  async function recievePayout(payoutPrice) {
-    var returnPrice = payoutPrice * LAMPORTS_PER_SOL
-    wallet.connection.requestAirdrop(window.solWallet.publicKey, returnPrice),
-    {
-      onSuccess: async () => {
-        await sleep(5000);
-        alert(`You've recieved ${returnPrice}`);
-      }
-    }
   }
 
   export async function createAndInitializeMint({

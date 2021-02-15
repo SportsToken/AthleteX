@@ -8,3 +8,5 @@ node_modules/
 
 *.lock
 yarn.lock
+# Local Netlify folder
+.netlify
