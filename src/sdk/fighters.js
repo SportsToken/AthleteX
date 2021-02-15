@@ -1,4 +1,6 @@
 
+
+import { Account } from '@solana/web3.js';
 var fighters = [
     {
         id: 0,
@@ -8,7 +10,6 @@ var fighters = [
         isOwned: false,
         //pool: "ufc-lightweight-pool"
         weight: 10, //% of pool occupied
-        tokenAddress: ''
     },
     {
         id: 1,

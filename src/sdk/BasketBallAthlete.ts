@@ -1,6 +1,5 @@
-import { Athlete } from './athletes';
+import { AthleteToken } from './athletes';
 
-export class BasketBallAthlete extends Athlete 
+export class BasketBallAthlete extends AthleteToken
 {
-    
 }

@@ -1,5 +1,6 @@
-import { Athlete } from './athletes';
+import { AthleteToken } from './athletes';
 
+// TO BE CREATED
 export class AthleteFactory {
     
 }

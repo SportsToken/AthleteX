@@ -12,11 +12,6 @@ import {
 } from 'reactstrap';
 
 class AvailableAthletes extends React.Component {
-    constructor(props)
-    {
-
-    }
-
     render() {
         return (
             <Card>
@@ -66,7 +61,7 @@ class AvailableAthletes extends React.Component {
                 <AccordionPanel>
                   <CardBody>
                   <Col md="6">
-                  Solana Token Address: 
+                  Solana Token Address: {fighter.mintTestToken()}
                   </Col>
                   <Col md="6">
                   ERC Token Address: 
