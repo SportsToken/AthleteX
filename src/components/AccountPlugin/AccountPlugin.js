@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dropdown, DropdownToggle, Badge } from 'reactstrap';
+import { wallet } from "sdk/globals";
 import { ConnectToMetamaskButton } from '../../utils/swap/eth';
 import { ConnectToSolButton } from '../Account/SolWallet';
 
@@ -35,8 +36,7 @@ function AccountPlugin(props) {
                         
                     </li>
                     <li>
-                        Public Key:
-                        Click me
+                        Public Key: {wallet.publicKey}
                     </li>
                     <li></li>
                 </ul>

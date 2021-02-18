@@ -19,6 +19,12 @@ interface Athlete {
 
 }
 
+interface AE {
+    Season: string;
+    isActive: boolean;
+    isLegacy: boolean;
+}
+
 export abstract class AthleteToken implements Athlete, Token, Market { 
     
     athleteName!: string;
