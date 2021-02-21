@@ -1,6 +1,6 @@
 
 import { mintAthleteToken, wallet } from './globals';
-import { Account, PublicKey } from '@solana/web3.js';
+import { Account, PublicKey } from '@solana/web3.js';  //Rip SOLANA -- needs to be stripped out
 interface Token {
     tokenSymbol: string;
     mintAddress: Account;
@@ -17,12 +17,6 @@ interface Athlete {
     League: string;
     Name: string;
 
-}
-
-interface AE {
-    Season: string;
-    isActive: boolean;
-    isLegacy: boolean;
 }
 
 export abstract class AthleteToken implements Athlete, Token, Market { 
