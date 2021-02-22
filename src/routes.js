@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Landing from "views/Landing.js";
+import Dashboard from "views/Dashboard.js";
 //import Icons from "views/Icons.js";
 //import Map from "views/Map.js";
 //import Typography from "views/Typography.js";
@@ -26,7 +26,7 @@ var routes = [
     name: "Dashboard",
     // rtlName: "لوحة القيادة",
     icon: "tim-icons icon-chart-pie-36",
-    component: Landing,
+    component: Dashboard,
     layout: "/admin"
   },
   {

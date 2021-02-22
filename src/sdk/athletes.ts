@@ -1,6 +1,3 @@
-
-import { mintAthleteToken, wallet } from './globals';
-import { Account, PublicKey } from '@solana/web3.js';  //Rip SOLANA -- needs to be stripped out
 interface Token {
     tokenSymbol: string;
     mintAddress: Account;

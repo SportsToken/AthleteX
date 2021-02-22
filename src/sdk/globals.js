@@ -5,6 +5,3 @@
  
 // Federal Reserve Account ( mint authority );
 // const AEReseve = new Wallet();
-
-
-const callAsync = useCallAsync();

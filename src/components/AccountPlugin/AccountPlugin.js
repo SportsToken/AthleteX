@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button, Dropdown, DropdownToggle, Badge } from 'reactstrap';
 import { wallet } from "sdk/globals";
-import { ConnectToMetamaskButton } from '../../utils/swap/eth';
-import { ConnectToSolButton } from '../Account/SolWallet';
+import { OnboardingButton } from '../../sdk/wallet';
+// import { ConnectToSolButton } from '../Account/SolWallet';
 
 function AccountPlugin(props) {
 
@@ -23,12 +23,13 @@ function AccountPlugin(props) {
                     </li>
                     <li className="adjustments-line">
                         <div id="SolWallet">
-                        <ConnectToSolButton />
                         </div>
                     </li>
                     <li className="adjustments-line">
                         <div id="MetMaskWallet">
-                        <ConnectToMetamaskButton />
+                            {
+                                OnboardingButton()
+                            }
                         </div>
                     </li>
                     <li className="header-title">Account Details</li>
