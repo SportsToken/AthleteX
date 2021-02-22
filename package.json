@@ -29,7 +29,7 @@
     "react-frame-component": "^4.1.3",
     "react-google-maps": "9.4.5",
     "react-notification-alert": "0.0.12",
-    "react-router-dom": "5.1.2",
+    "react-router-dom": "5.2.0",
     "react-scripts": "3.4.0",
     "reactstrap": "8.4.1",
     "truffle": "^5.1.67",
