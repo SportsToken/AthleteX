@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Button, Dropdown, DropdownToggle, Badge } from 'reactstrap';
-import { wallet } from "sdk/globals";
-import { OnboardingButton } from '../../sdk/wallet';
-// import { ConnectToSolButton } from '../Account/SolWallet';
 
 function AccountPlugin(props) {
 
@@ -28,7 +25,7 @@ function AccountPlugin(props) {
                     <li className="adjustments-line">
                         <div id="MetMaskWallet">
                             {
-                                OnboardingButton()
+
                             }
                         </div>
                     </li>
@@ -37,7 +34,7 @@ function AccountPlugin(props) {
                         
                     </li>
                     <li>
-                        Public Key: {wallet.publicKey}
+                        Public Key: 
                     </li>
                     <li></li>
                 </ul>

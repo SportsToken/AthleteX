@@ -19,9 +19,6 @@ import React from "react";
 
 import {
   AccordionWithHeader,
-  AccordionNode,
-  AccordionHeader,
-  AccordionPanel
 } from 'react-accordion-with-header';
 
 
@@ -42,7 +39,6 @@ import Welcome from "components/Header/Welcome";
 // import fighters from "../sdk/fighters"
 import { AthleteTable } from '../components/Athletes/AthleteTable';
 import { MMAAthlete } from '../sdk/MMAAthlete';
-import { makeTransaction } from "sdk/globals";
 
 import { Owned } from '../components/Athletes/Owned';
 import { AthleteNode } from "components/Athletes/AthleteNode";
@@ -83,7 +79,6 @@ async copyToClipboard(copyItem)
 }
   
 purchaseFunction = (fighter) => {
-  makeTransaction();
   fighter.switchOwnership();
   alert(`${fighter.tokenPrice}`);
   fighter.buyToken();
