@@ -14,7 +14,7 @@
     "chai": "^4.2.0",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "ethereum-waffle": "^3.2.1",
     "ethers": "^5.0.31",
     "history": "4.10.1",
@@ -60,7 +60,7 @@
   "optionalDependencies": {
     "@types/googlemaps": "3.39.3",
     "@types/markerclustererplus": "2.1.33",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "typescript": "3.8.3"
   },
   "devDependencies": {
