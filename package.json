@@ -15,7 +15,7 @@
     "chai": "^4.2.0",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "ethereum-waffle": "^3.2.1",
     "history": "4.10.1",
     "install": "^0.13.0",
@@ -60,11 +60,11 @@
   "optionalDependencies": {
     "@types/googlemaps": "3.39.3",
     "@types/markerclustererplus": "2.1.33",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "typescript": "3.8.3"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.5",
+    "@babel/plugin-transform-react-jsx": "^7.12.17",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
     "immutable-tuple": "^0.4.10"
