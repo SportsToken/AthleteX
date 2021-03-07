@@ -1,11 +1,13 @@
-import { AthleteToken } from "./athletes";
+import { AEthlete } from "./AEthletes";
 
-export class MMAAthlete extends AthleteToken {
+export class MMAAthlete extends AEthlete {
     id!: number;
     division!: string;
     record!: string;
     weight!: string;
     isOwned!: boolean;
+    athleteName: string;
+    tokenName: string;
 
     constructor(name:string, division: string)
     {
@@ -39,6 +41,6 @@ export class MMAAthlete extends AthleteToken {
     // @ts-check
     getTokenName(): string
     {
-        return super.getTokenName() + "MMA" + this.athleteName;
+        return "";
     }
 }

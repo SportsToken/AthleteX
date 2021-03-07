@@ -65,7 +65,7 @@ let aFighter = {
   record: "a record",
 }
 
-class Landing extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
 
     super(props);
@@ -92,26 +92,7 @@ purchaseFunction = (fighter) => {
           <Welcome />
           <Row>
             <Col>
-            <Card>
-                <CardHeader>
-                  <CardTitle tag="h3">
-                    My Athletes
-                  </CardTitle>
-                </CardHeader>
-                <CardBody>
-                <AccordionWithHeader multipleOkay={true} >
-                {fighters.filter(fighter =>{if(fighter.checkOwnership()){
-                  return true;
-                }else{
-                  return false;
-                }}).map(fighter =>{
-                  return(
-                      <Owned athlete={fighter} />
-                  );
-                })}
-              </AccordionWithHeader>
-              </CardBody>
-            </Card>         
+
             </Col>
           </Row>
 
@@ -138,4 +119,4 @@ purchaseFunction = (fighter) => {
 }
 
 
-export default Landing
+export default Dashboard
