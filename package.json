@@ -17,7 +17,7 @@
     "classnames": "2.2.6",
     "eslint-plugin-flowtype": "5.3.1",
     "ethereum-waffle": "^3.2.1",
-    "history": "4.10.1",
+    "history": "5.0.0",
     "install": "^0.13.0",
     "node-sass": "^4.13.1",
     "notistack": "^1.0.3",
