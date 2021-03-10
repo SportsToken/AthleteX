@@ -1,5 +1,3 @@
-
-
 import { Account } from '@solana/web3.js';
 var fighters = [
     {

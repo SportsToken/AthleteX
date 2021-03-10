@@ -39,35 +39,11 @@ import {
 
 // core components
 import Welcome from "components/Header/Welcome";
-// import fighters from "../sdk/fighters"
-import { AthleteTable } from '../components/Athletes/AthleteTable';
-import { MMAAthlete } from '../sdk/MMAAthlete';
+import fighters from "../sdk/fighters"
 import { makeTransaction } from "sdk/globals";
 
 import { Owned } from '../components/Athletes/Owned';
-import { AthleteNode } from "components/Athletes/AthleteNode";
 
-const KN = new MMAAthlete("Khabib Nurmagomedov");
-const JG = new MMAAthlete("Justin Gathje");
-const DP = new MMAAthlete("Dustin Poirier");
-const TF = new MMAAthlete("Tony Ferguson");
-const CM = new MMAAthlete("Conor McGregor");
-
-const fighters = [
-  KN,
-  JG,
-  DP,
-  TF,
-  CM
-];
-
-let aFighter = {
-  id: "0",
-  name: "Kevin Kamto",
-  division: "my division",
-  weight: "200",
-  record: "a record",
-}
 
 class Landing extends React.Component {
   constructor(props) {
@@ -105,7 +81,7 @@ purchaseFunction = (fighter) => {
                 </CardHeader>
                 <CardBody>
                 <AccordionWithHeader multipleOkay={true} >
-                {fighters.filter(fighter =>{if(fighter.checkOwnership()){
+                {fighters.filter(fighter =>{if(fighter.isOwned){
                   return true;
                 }else{
                   return false;
@@ -122,18 +98,27 @@ purchaseFunction = (fighter) => {
 
 
           <Row>
-            <Col>
+          <Col>
             <Card>
-              <CardHeader>
-                <CardTitle tag="h3">Available Athletes</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <AthleteTable>
-                <AthleteNode name="Kevin" />
-                <AthleteNode name="Kamto" />
-                </AthleteTable>
+                <CardHeader>
+                  <CardTitle tag="h3">
+                    Available Athletes
+                  </CardTitle>
+                </CardHeader>
+                <CardBody>
+                <AccordionWithHeader multipleOkay={true} >
+                {fighters.filter(fighter =>{if(fighter.isOwned){
+                  return true;
+                }else{
+                  return false;
+                }}).map(fighter =>{
+                  return(
+                      <Owned athlete={fighter} />
+                  );
+                })}
+              </AccordionWithHeader>
               </CardBody>
-            </Card>
+            </Card>         
             </Col>
           </Row>
         </div>

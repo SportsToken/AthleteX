@@ -31,14 +31,6 @@ function AccountPlugin(props) {
                         <ConnectToMetamaskButton />
                         </div>
                     </li>
-                    <li className="header-title">Account Details</li>
-                    <li>
-                        
-                    </li>
-                    <li>
-                        Public Key: {wallet.publicKey}
-                    </li>
-                    <li></li>
                 </ul>
             </Dropdown>
         </div>
