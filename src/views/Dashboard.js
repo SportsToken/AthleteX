@@ -16,14 +16,9 @@
 
 */
 import React from "react";
-import fighters from "../sdk/fighters"
-import hist from "transactionHistory";
 
 import {
   AccordionWithHeader,
-  AccordionNode,
-  AccordionHeader,
-  AccordionPanel
 } from 'react-accordion-with-header';
 
 
@@ -36,11 +31,39 @@ import {
   CardTitle,
   Row,
   Col,
+  Table
 } from "reactstrap";
 
 // core components
 import Welcome from "components/Header/Welcome";
+// import fighters from "../sdk/fighters"
+import { AthleteTable } from '../components/Athletes/AthleteTable';
+import { MMAAthlete } from '../sdk/MMAAthlete';
 
+import { Owned } from '../components/Athletes/Owned';
+import { AthleteNode } from "components/Athletes/AthleteNode";
+
+const KN = new MMAAthlete("Khabib Nurmagomedov");
+const JG = new MMAAthlete("Justin Gathje");
+const DP = new MMAAthlete("Dustin Poirier");
+const TF = new MMAAthlete("Tony Ferguson");
+const CM = new MMAAthlete("Conor McGregor");
+
+const fighters = [
+  KN,
+  JG,
+  DP,
+  TF,
+  CM
+];
+
+let aFighter = {
+  id: "0",
+  name: "Kevin Kamto",
+  division: "my division",
+  weight: "200",
+  record: "a record",
+}
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -55,6 +78,11 @@ async copyToClipboard(copyItem)
   document.execCommand("copy");
 }
   
+purchaseFunction = (fighter) => {
+  fighter.switchOwnership();
+  alert(`${fighter.tokenPrice}`);
+  fighter.buyToken();
+}
   
   render() {
     return (
@@ -64,63 +92,7 @@ async copyToClipboard(copyItem)
           <Welcome />
           <Row>
             <Col>
-            <Card>
-              <CardHeader>
-                  <CardTitle tag="h3">My Athletes</CardTitle>
-              </CardHeader>
-              <CardBody>
-                <Row>
-                <Col md="4">Name</Col>
-                <Col >Division</Col>
-                <Col>Price (AE tokens)</Col>
-                <Col xs="2">Win-Loss</Col>
-                <Col xs="1"></Col>
-                </Row>
-              </CardBody>
-              <AccordionWithHeader multipleOkay={true} >
-                {fighters.filter(fighter =>{if(fighter.isOwned){
-                  return true;
-                }else{
-                  return false;
-                }}).map(fighter =>{
-                  return(
-                  <AccordionNode key={fighter.id}>
-                  <AccordionHeader 
-                   titleColor="white"
-                   horizontalAlignment="centerSpaceBetween">
-                     <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.division}</Col>
-                      <Col>{fighter.weight}</Col>
-                      <Col>{fighter.record}</Col>
-                      <Col xs="1">
-                        <Button onClick={() => "Sold!"}
-                          color="danger"
-                          id="4"
-                          size="sm"
-                          tag="label"
-                         >
-                          <input
-                             className="d-none"
-                            name="options"
-                            type="radio"
-                            onClick={() => alert(`Sold ${fighter.name}`)}
-                          />
-                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            Sell?
-                         </span>
-                        </Button>
-                      </Col>
-                  </AccordionHeader>
-                  <AccordionPanel>
-                    <CardBody>
-                      Athlete Token Address: 
-                    </CardBody>
-                    </AccordionPanel>
-                  </AccordionNode>
-                  );
-                })}
-              </AccordionWithHeader>
-            </Card>         
+
             </Col>
           </Row>
 
@@ -132,61 +104,11 @@ async copyToClipboard(copyItem)
                 <CardTitle tag="h3">Available Athletes</CardTitle>
               </CardHeader>
               <CardBody>
-                <Row>
-                <Col md="4">Name</Col>
-                <Col >Division</Col>
-                <Col>Price (AE Tokens)</Col>
-                <Col xs="2">Win-Loss</Col>
-                <Col xs="1"></Col>
-                </Row>
+                <AthleteTable>
+                <AthleteNode name="Kevin" />
+                <AthleteNode name="Kamto" />
+                </AthleteTable>
               </CardBody>
-              <AccordionWithHeader>
-              {fighters.map((fighter,i)=>{
-                  return(
-                  <AccordionNode key={i}>
-                  <AccordionHeader 
-                   titleColor="white"
-                   horizontalAlignment="centerSpaceBetween">
-                     <Col md="4">{fighter.name}</Col>
-                      <Col md="3">{fighter.division}</Col>
-                      <Col>{fighter.weight}</Col>
-                      <Col>{fighter.record}</Col>
-                      <Col xs="1">
-                        <Button onClick={() => console.log("Bought!")}
-                          color="success"
-                          id="4"
-                          size="sm"
-                          tag="label"
-                          disabled={fighter.isOwned}
-                         >
-                          <input
-                             className="d-none"
-                            name="options"
-                            type="radio"
-                            onClick={() => alert(`Bought ${fighter.name}`)}
-                          />
-                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            {fighter.isOwned?"Owned":"Buy"}
-                         </span>
-                        </Button>
-                      </Col>
-                  </AccordionHeader>
-                  <AccordionPanel horizontalAlignment="centerSpaceBetween">
-                    <CardBody>
-                      <Row>
-                        <Col md="4">
-                            Solana Token Address: 
-                        </Col>
-                        <Col md="3">
-                            ERC Token Address: 
-                        </Col>
-                      </Row>
-                    </CardBody>
-                  </AccordionPanel>
-                  </AccordionNode>
-                  );
-                })}
-                </AccordionWithHeader>
             </Card>
             </Col>
           </Row>

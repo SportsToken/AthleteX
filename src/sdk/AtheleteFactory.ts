@@ -1,4 +1,4 @@
-import { AthleteToken } from './athletes';
+import { AEthlete } from './AEthletes';
 
 // TO BE CREATED
 export class AthleteFactory {

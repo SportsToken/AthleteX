@@ -1,21 +1,22 @@
 {
-  "name": "black-dashboard-react",
+  "name": "athlete-equity-dex",
   "version": "1.1.0",
   "private": true,
   "homepage": "/",
   "dependencies": {
     "@ledgerhq/hw-transport-webusb": "^5.43.0",
+    "@metamask/onboarding": "^1.0.0",
     "@nomiclabs/buidler-ethers": "^2.0.2",
-    "@project-serum/sol-wallet-adapter": "^0.1.3",
     "@types/googlemaps": "3.39.3",
     "@types/markerclustererplus": "2.1.33",
     "@types/react": "16.9.23",
-    "chai": "^4.2.0",
+    "@types/reactstrap": "^8.7.2",
+    "@web3-react/core": "^6.1.9",
+    "chai": "^4.3.4",
     "chart.js": "2.9.3",
     "classnames": "2.2.6",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "ethereum-waffle": "^3.2.1",
-    "ethers": "^5.0.26",
     "history": "4.10.1",
     "install": "^0.13.0",
     "node-sass": "^4.13.1",
@@ -28,14 +29,14 @@
     "react-dom": "16.13.0",
     "react-frame-component": "^4.1.3",
     "react-google-maps": "9.4.5",
-    "react-iframe": "^1.8.0",
     "react-notification-alert": "0.0.12",
     "react-router-dom": "5.1.2",
     "react-scripts": "3.4.0",
     "reactstrap": "8.4.1",
-    "spl-token-wallet": "github:user2745/spl-wallet",
+    "truffle": "^5.1.67",
     "typescript": "3.8.3",
-    "web3": "^1.3.4"
+    "web3": "^1.3.4",
+    "web3-react": "^5.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,11 +60,11 @@
   "optionalDependencies": {
     "@types/googlemaps": "3.39.3",
     "@types/markerclustererplus": "2.1.33",
-    "eslint-plugin-flowtype": "3.13.0",
+    "eslint-plugin-flowtype": "5.3.1",
     "typescript": "3.8.3"
   },
   "devDependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.5",
+    "@babel/plugin-transform-react-jsx": "^7.12.17",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
     "immutable-tuple": "^0.4.10"
